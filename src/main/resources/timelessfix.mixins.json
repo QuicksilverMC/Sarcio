@@ -58,7 +58,9 @@
     "resourcepacks.ResourceIndexMixin",
     "textures.TextureManagerMixin",
     "textures.TextureUtilMixin",
-    "textures.ThreadDownloadImageDataMixin"
+    "textures.ThreadDownloadImageDataMixin",
+    "tweaks.MinecraftMixin",
+    "tweaks.GuiMainMenuMixin"
   ],
   "injectors": {
     "defaultRequire": 1
