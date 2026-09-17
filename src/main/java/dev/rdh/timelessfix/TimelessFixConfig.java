@@ -18,7 +18,7 @@ public final class TimelessFixConfig {
 	private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("timelessfix.json");
 
 	public boolean releaseCrashReserve;
-	public boolean modernParallax;
+	public boolean disableRealms;
 
 	public static TimelessFixConfig load() {
 		if (Files.isRegularFile(PATH)) {
