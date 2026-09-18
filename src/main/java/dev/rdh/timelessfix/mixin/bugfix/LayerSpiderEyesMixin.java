@@ -2,7 +2,6 @@ package dev.rdh.timelessfix.mixin.bugfix;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerSpiderEyes;
-import net.minecraft.entity.monster.EntitySpider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -11,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LayerSpiderEyes.class)
 public class LayerSpiderEyesMixin {
     @Inject(method = "doRenderLayer(Lnet/minecraft/entity/monster/EntitySpider;FFFFFFF)V", at = @At("RETURN"))
-    private void tf$fixDepth(EntitySpider entitylivingbaseIn, float f, float g, float partialTicks, float h, float i, float j, float scale, CallbackInfo ci) {
+    private void tf$fixDepth(CallbackInfo ci) {
         GlStateManager.depthMask(true);
     }
 }
