@@ -41,11 +41,18 @@
     "bugfix.BlockFluidRendererMixin",
     "bugfix.EntityLivingBaseMixin",
     "bugfix.EntityRendererMixin",
+    "bugfix.GuiContainerMixin",
     "bugfix.GuiIngameMixin",
+    "bugfix.GuiPlayerTabOverlayMixin",
     "bugfix.GuiScreenBookMixin",
+    "bugfix.LayerCreeperChargeMixin",
+    "bugfix.LayerSpiderEyesMixin",
+    "bugfix.LayerWithAuraMixin",
     "bugfix.MinecraftMixin",
     "bugfix.PlayerRendererMixin",
+    "bugfix.RendererLivingEntityMixin",
     "bugfix.RenderGlobalMixin",
+    "bugfix.RenderWitherMixin",
     "core.TimerMixin",
     "memory_management.ClientPlayNetworkingImplMixin",
     "memory_management.MinecraftMixin",
@@ -58,7 +65,9 @@
     "resourcepacks.ResourceIndexMixin",
     "textures.TextureManagerMixin",
     "textures.TextureUtilMixin",
-    "textures.ThreadDownloadImageDataMixin"
+    "textures.ThreadDownloadImageDataMixin",
+    "tweaks.MinecraftMixin",
+    "tweaks.GuiMainMenuMixin"
   ],
   "injectors": {
     "defaultRequire": 1
