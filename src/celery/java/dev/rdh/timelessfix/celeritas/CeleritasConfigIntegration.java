@@ -46,10 +46,16 @@ public final class CeleritasConfigIntegration implements OptionStorage<TimelessF
 				.setFlags(OptionFlag.REQUIRES_GAME_RESTART)
 				.build())
 			.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
-				.setId(id("parallax_fix"))
+				.setId(id("disable_realms"))
 				.setControl(TickBoxControl::new)
-				.setBinding((config, value) -> config.modernParallax = value,
-						config -> config.modernParallax)
+				.setBinding((config, value) -> config.disableRealms = value,
+						config -> config.disableRealms)
+				.build())
+			.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
+				.setId(id("disable_realms"))
+				.setControl(TickBoxControl::new)
+				.setBinding((config, value) -> config.disableRealms = value,
+						config -> config.disableRealms)
 				.build())
 			.build();
 
