@@ -9,9 +9,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(GuiScreenAddServer.class)
 public class GuiScreenAddServerMixin {
-    @Definition(id = "serverIPField", field = "Lnet/minecraft/client/gui/GuiScreenAddServer;serverIPField:Lnet/minecraft/client/gui/GuiTextField;")
-    @Definition(id = "getText", method = "Lnet/minecraft/client/gui/GuiTextField;getText()Ljava/lang/String;")
-    @Expression("?.serverIPField.getText()")
+    @Definition(id = "serverIP", field = "Lnet/minecraft/client/multiplayer/ServerData;serverIP:Ljava/lang/String;")
+    @Expression("?.serverIP = @(?)")
     @ModifyExpressionValue(method = "actionPerformed", at = @At("MIXINEXTRAS:EXPRESSION"))
     private String tf$trimIp(String original) {
         return original.trim();
