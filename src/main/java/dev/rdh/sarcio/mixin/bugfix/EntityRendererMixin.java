@@ -1,8 +1,5 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;
@@ -15,6 +12,7 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin {
@@ -30,9 +28,7 @@ public class EntityRendererMixin {
         return ret;
     }
 
-    @Definition(id = "getLightBrightness", method = "Lnet/minecraft/client/multiplayer/WorldClient;getLightBrightness(Lnet/minecraft/util/BlockPos;)F")
-    @Expression("?.?.?.getLightBrightness(@(?))")
-    @ModifyExpressionValue(method = "updateRenderer", at = @At("MIXINEXTRAS:EXPRESSION"))
+    @ModifyArg(method = "updateRenderer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;getLightBrightness(Lnet/minecraft/util/BlockPos;)F"))
     private BlockPos sarcio$fixSkyDarkening(BlockPos original) {
         return new BlockPos(this.mc.getRenderViewEntity().getPositionEyes(1.0F));
     }
