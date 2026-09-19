@@ -25,6 +25,7 @@
     "bugfix.ScoreboardMixin",
     "bugfix.StatBaseMixin",
     "bugfix.WorldMixin",
+    "bugfix.EntityPacketsMixin",
     "core.DataWatcherMixin",
     "core.LongHashMapMixin",
     "core.LazyLoadBaseMixin",
