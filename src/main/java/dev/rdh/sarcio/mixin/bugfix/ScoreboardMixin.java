@@ -11,7 +11,7 @@ import net.minecraft.scoreboard.Scoreboard;
 @Mixin(Scoreboard.class)
 public class ScoreboardMixin {
 	@Inject(method = "removeTeam", at = @At("HEAD"), cancellable = true)
-	private void dontRemoveNull(ScorePlayerTeam team, CallbackInfo ci) {
+	private void sarcio$dontRemoveNull(ScorePlayerTeam team, CallbackInfo ci) {
 		if (team == null) {
 			ci.cancel();
 		}

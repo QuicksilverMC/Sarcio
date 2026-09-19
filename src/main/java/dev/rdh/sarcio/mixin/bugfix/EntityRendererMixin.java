@@ -21,7 +21,7 @@ public class EntityRendererMixin {
 
     @WrapOperation(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderGlobal;renderBlockLayer(Lnet/minecraft/util/EnumWorldBlockLayer;DILnet/minecraft/entity/Entity;)I", ordinal = 3))
     private int sarcio$offsetTranslucents(RenderGlobal instance, EnumWorldBlockLayer blockLayerIn, double partialTicks, int pass, Entity entityIn, Operation<Integer> original) {
-        GlStateManager.doPolygonOffset(-1.0F, -1.0F);
+        GlStateManager.doPolygonOffset(-0.1F, -0.1F);
         GlStateManager.enablePolygonOffset();
         int ret = original.call(instance, blockLayerIn, partialTicks, pass, entityIn);
         GlStateManager.disablePolygonOffset();
