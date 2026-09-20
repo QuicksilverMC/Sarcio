@@ -6,6 +6,7 @@
   "plugin": "dev.rdh.sarcio.mixin.SarcioMixinPlugin",
   "mixins": [
     "allocation_rate.ChunkEntityListsAccessor",
+    "allocation_rate.BlockPosMixin",
     "allocation_rate.ClassInheritanceMultiMapAccessor",
     "allocation_rate.EntityLivingBaseMixin",
     "allocation_rate.EntityMixin",
