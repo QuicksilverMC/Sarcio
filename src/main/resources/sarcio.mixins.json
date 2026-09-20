@@ -87,6 +87,7 @@
     "bugfix.PlayerRendererMixin",
     "bugfix.RendererLivingEntityMixin",
     "bugfix.RenderGlobalMixin",
+    "bugfix.RenderItemGlintMixin",
     "bugfix.RenderFireMixin",
     "bugfix.RenderFishMixin",
     "bugfix.RenderArrowMixin",
