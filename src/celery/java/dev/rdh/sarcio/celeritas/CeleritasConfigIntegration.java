@@ -9,7 +9,6 @@ import org.taumc.celeritas.api.options.OptionIdentifier;
 import org.taumc.celeritas.api.options.control.TickBoxControl;
 import org.taumc.celeritas.api.options.structure.OptionFlag;
 import org.taumc.celeritas.api.options.structure.OptionGroup;
-import org.taumc.celeritas.api.options.structure.OptionImpact;
 import org.taumc.celeritas.api.options.structure.OptionImpl;
 import org.taumc.celeritas.api.options.structure.OptionPage;
 import org.taumc.celeritas.api.options.structure.OptionStorage;
@@ -42,7 +41,6 @@ public final class CeleritasConfigIntegration implements OptionStorage<SarcioCon
 				.setControl(TickBoxControl::new)
 				.setBinding((config, value) -> config.releaseCrashReserve = value,
 					config -> config.releaseCrashReserve)
-				.setImpact(OptionImpact.HIGH)
 				.setFlags(OptionFlag.REQUIRES_GAME_RESTART)
 				.build())
 			.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
@@ -53,14 +51,11 @@ public final class CeleritasConfigIntegration implements OptionStorage<SarcioCon
 				.build())
 			.build();
 
-		return new OptionPage(id("options"), text("pages.sarcio"), List.of(memory));
+		return new OptionPage(id("options"), TextComponent.translatable("sarcio.options.pages.sarcio"), List.of(memory));
 	}
 
 	private static <T> OptionIdentifier<T> id(String path) {
 		return OptionIdentifier.create("sarcio", path).cast();
 	}
 
-	private static TextComponent text(String path) {
-		return TextComponent.translatable("sarcio.options." + path);
-	}
 }
