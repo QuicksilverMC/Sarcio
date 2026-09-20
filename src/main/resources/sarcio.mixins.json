@@ -80,6 +80,7 @@
     "bugfix.LayerWithAuraMixin",
     "bugfix.MinecraftMixin",
     "bugfix.ModelPlayerMixin",
+    "bugfix.ModelSkeletonMixin",
     "bugfix.ModelVillagerMixin",
     "bugfix.NetHandlerPlayClientMixin",
     "bugfix.PacketThreadUtilRunnableMixin",
