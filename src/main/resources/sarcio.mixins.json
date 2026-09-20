@@ -14,6 +14,7 @@
     "allocation_rate.EnumFacingMixin",
     "allocation_rate.EnumFacingPlaneMixin",
     "allocation_rate.NBTTagStringMixin",
+    "allocation_rate.MathHelperMixin",
     "allocation_rate.GameRulesValueMixin",
     "allocation_rate.WorldCollisionMixin",
     "allocation_rate.WorldLightingMixin",
