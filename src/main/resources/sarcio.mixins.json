@@ -102,6 +102,7 @@
     "bugfix.SoundManagerMixin",
     "bugfix.WorldHorizonMixin",
     "bugfix.TileEntityPistonRendererMixin",
+    "bugfix.TileEntityBannerRendererMixin",
     "bugfix.TileEntityRendererDispatcherMixin",
     "bugfix.TileEntitySkullRendererMixin",
     "bugfix.WorldRendererMixin",
