@@ -119,7 +119,8 @@
     "textures.TextureUtilMixin",
     "textures.ThreadDownloadImageDataMixin",
     "tweaks.GuiMainMenuMixin",
-    "tweaks.MinecraftMixin"
+    "tweaks.MinecraftMixin",
+    "tweaks.ServerPingerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
