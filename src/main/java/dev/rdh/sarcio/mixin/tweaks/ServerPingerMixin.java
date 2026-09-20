@@ -13,12 +13,14 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.ServerListEntryNormal;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ServerListEntryNormal.class)
 public class ServerPingerMixin {
@@ -40,8 +42,8 @@ public class ServerPingerMixin {
     @Unique
     private static final AtomicInteger SARCIO$IN_FLIGHT = new AtomicInteger();
 
-    @WrapOperation(method = "drawEntry", at = @At(value = "INVOKE", target = "Ljava/util/concurrent/ThreadPoolExecutor;submit(Ljava/lang/Runnable;)Ljava/util/concurrent/Future;"))
-    private Future<?> sarcio$pingOnVirtualThread(ThreadPoolExecutor vanillaPingers, Runnable ping, Operation<Future<?>> original) {
+    @Redirect(method = "drawEntry", at = @At(value = "INVOKE", target = "Ljava/util/concurrent/ThreadPoolExecutor;submit(Ljava/lang/Runnable;)Ljava/util/concurrent/Future;"))
+    private Future<?> sarcio$pingOnVirtualThread(ThreadPoolExecutor vanillaPingers, Runnable ping) {
         if (SARCIO$IN_FLIGHT.get() >= SARCIO$MAX_PINGS_IN_FLIGHT) {
             this.sarcio$failWith(EnumChatFormatting.GRAY + "Spamming...");
             return CompletableFuture.completedFuture(null);
@@ -54,7 +56,7 @@ public class ServerPingerMixin {
                 pinging.get(SARCIO$PING_TIMEOUT_SECONDS, TimeUnit.SECONDS);
             } catch (TimeoutException timeout) {
                 pinging.cancel(true);
-                this.sarcio$failWith(EnumChatFormatting.RED + "Timed out");
+                this.sarcio$failWith(EnumChatFormatting.RED + I18n.format("disconnect.timeout"));
             } catch (Exception ignored) {
                 // the vanilla task reports its own failures
             } finally {
