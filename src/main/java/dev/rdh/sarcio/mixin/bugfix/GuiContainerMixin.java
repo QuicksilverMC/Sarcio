@@ -6,14 +6,31 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.inventory.Slot;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiContainer.class)
 public class GuiContainerMixin {
+    @Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/inventory/GuiContainer;drawGuiContainerBackgroundLayer(FII)V"))
+    private void sarcio$blendBackground(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
+        GlStateManager.enableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+    }
+
+    @Inject(method = "drawSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/inventory/GuiContainer;drawTexturedModalRect(IILnet/minecraft/client/renderer/texture/TextureAtlasSprite;II)V"))
+    private void sarcio$blendSlot(Slot slotIn, CallbackInfo ci) {
+        GlStateManager.enableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+    }
+
     @Shadow
     protected boolean dragSplitting;
 
