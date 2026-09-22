@@ -63,6 +63,7 @@
     "bugfix.EntityRendererMixin",
     "bugfix.FontRendererMixin",
     "bugfix.GuiContainerMixin",
+    "bugfix.GuiScreenResourcePacksMixin",
     "bugfix.ItemModelMesherMixin",
     "bugfix.ResourcePackRepositoryMixin",
     "bugfix.GameSettingsMixin",
