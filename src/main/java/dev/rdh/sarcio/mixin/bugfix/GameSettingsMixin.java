@@ -1,7 +1,12 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
+
+import com.google.common.util.concurrent.ListenableFuture;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,5 +19,10 @@ public class GameSettingsMixin {
         if (key.getKeyCode() >= 256) {
             cir.setReturnValue(false);
         }
+    }
+
+    @WrapOperation(method = "setOptionFloatValue", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;scheduleResourcesRefresh()Lcom/google/common/util/concurrent/ListenableFuture;"))
+    private ListenableFuture<?> sarcio$deferResourceRefresh(Minecraft mc, Operation<ListenableFuture<?>> original) {
+        return null;
     }
 }
