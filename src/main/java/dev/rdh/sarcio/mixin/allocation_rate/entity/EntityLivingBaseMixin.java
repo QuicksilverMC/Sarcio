@@ -13,6 +13,10 @@ abstract class EntityLivingBaseMixin extends Entity {
 		super(world);
 	}
 
+	/**
+	 * @author rdh
+	 * @reason faster collisions
+	 */
 	@Overwrite
 	public void collideWithNearbyEntities() {
 		EntityQuery.pushCollidingEntities(

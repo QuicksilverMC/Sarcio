@@ -26,6 +26,10 @@ abstract class WorldCollisionMixin {
 	@Shadow public abstract boolean isBlockLoaded(BlockPos pos);
 	@Shadow public abstract IBlockState getBlockState(BlockPos pos);
 
+	/**
+	 * @author rdh
+	 * @reason faster collision detection
+	 */
 	@Overwrite
 	public List<AxisAlignedBB> getCollidingBoundingBoxes(Entity entity, AxisAlignedBB box) {
 		List<AxisAlignedBB> boxes = Lists.newArrayList();
