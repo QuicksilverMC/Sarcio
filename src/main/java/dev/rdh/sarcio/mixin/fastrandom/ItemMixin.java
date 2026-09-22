@@ -1,7 +1,7 @@
 package dev.rdh.sarcio.mixin.fastrandom;
 
 import java.util.Random;
-import dev.rdh.sarcio.Xoshiro256StarStarRandom;
+import dev.rdh.sarcio.util.Xoshiro256StarStarRandom;
 import net.minecraft.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

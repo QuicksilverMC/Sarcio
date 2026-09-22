@@ -1,6 +1,6 @@
 package dev.rdh.sarcio.mixin.memory_management;
 
-import dev.rdh.sarcio.ClassInfoManager;
+import dev.rdh.sarcio.util.ClassInfoManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.EntityRenderer;

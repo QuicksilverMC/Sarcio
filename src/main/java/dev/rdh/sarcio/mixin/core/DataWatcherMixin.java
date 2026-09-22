@@ -1,6 +1,6 @@
 package dev.rdh.sarcio.mixin.core;
 
-import dev.rdh.sarcio.NoOpReadWriteLock;
+import dev.rdh.sarcio.util.NoOpReadWriteLock;
 import java.util.concurrent.locks.ReadWriteLock;
 import net.minecraft.entity.DataWatcher;
 import org.spongepowered.asm.mixin.Mixin;
