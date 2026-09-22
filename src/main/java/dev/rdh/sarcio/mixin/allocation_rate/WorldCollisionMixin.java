@@ -4,7 +4,11 @@ import com.google.common.collect.Lists;
 import dev.rdh.sarcio.EntityQuery;
 import java.util.List;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -58,7 +62,10 @@ abstract class WorldCollisionMixin {
 			}
 		}
 
-		EntityQuery.addCollisionBoxes((World) (Object) this, entity, box.expand(0.25, 0.25, 0.25), box, boxes);
+		if (!(entity instanceof EntityTNTPrimed || entity instanceof EntityFallingBlock || entity instanceof EntityItem || entity instanceof EntityFX)) {
+			EntityQuery.addCollisionBoxes((World) (Object) this, entity, box.expand(0.25, 0.25, 0.25), box, boxes);
+		}
+
 		return boxes;
 	}
 }
