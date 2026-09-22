@@ -15,6 +15,7 @@
     "allocation_rate.util.EnumFacingMixin",
     "allocation_rate.util.EnumFacingPlaneMixin",
     "allocation_rate.util.NBTTagStringMixin",
+    "allocation_rate.util.ItemStackMixin",
     "allocation_rate.util.MathHelperMixin",
     "allocation_rate.world.GameRulesValueMixin",
     "allocation_rate.world.WorldCollisionMixin",
@@ -51,6 +52,7 @@
     "memory_management.location_canon.ResourceLocationMixin"
   ],
   "client": [
+    "allocation_rate.entity.EntityDisplayNameMixin",
     "allocation_rate.render.EffectRendererMixin",
     "allocation_rate.entity.EntityOtherPlayerMPMixin",
     "allocation_rate.render.FontRendererMixin",
