@@ -26,6 +26,6 @@ public abstract class GuiScreenBookMixin extends GuiScreen {
 
     @Inject(method = "drawScreen", at = @At("HEAD"))
     private void sarcio$drawBackground(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
-        this.drawWorldBackground(0);
+        this.drawDefaultBackground();
     }
 }
