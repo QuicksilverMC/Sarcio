@@ -37,8 +37,11 @@ abstract class EntityDisplayNameMixin {
 		}
 	}
 
-	@SuppressWarnings("UnqualifiedMemberReference")
-	@WrapOperation(method = "getDisplayName", at = @At(value = "INVOKE", target = "getHoverEvent()Lnet/minecraft/event/HoverEvent;"), require = 1)
+	@SuppressWarnings("MixinAnnotationTarget")
+	@WrapOperation(method = "getDisplayName", at = {
+			@At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;getHoverEvent()Lnet/minecraft/event/HoverEvent;"),
+			@At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getHoverEvent()Lnet/minecraft/event/HoverEvent;")
+	}, require = 1)
 	private HoverEvent sarcio$hoverEventOnlyInSingleplayer(@Coerce Entity entity, Operation<HoverEvent> original) {
 		return Minecraft.getMinecraft().isIntegratedServerRunning() ? original.call(entity) : null;
 	}
