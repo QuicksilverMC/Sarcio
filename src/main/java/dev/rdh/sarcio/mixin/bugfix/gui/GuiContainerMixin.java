@@ -16,7 +16,31 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiContainer.class)
-public class GuiContainerMixin {
+public abstract class GuiContainerMixin {
+    @Shadow
+    private Slot theSlot;
+
+    @Shadow
+    protected abstract void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType);
+
+    @Shadow
+    protected abstract boolean checkHotbarKeys(int keyCode);
+
+    @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
+    private void sarcio$handleMouseBoundKeys(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
+        Minecraft mc = Minecraft.getMinecraft();
+        int keyCode = mouseButton - 100;
+        if (keyCode == mc.gameSettings.keyBindInventory.getKeyCode()) {
+            mc.thePlayer.closeScreen();
+            ci.cancel();
+        } else if (this.checkHotbarKeys(keyCode)) {
+            ci.cancel();
+        } else if (keyCode == mc.gameSettings.keyBindDrop.getKeyCode() && this.theSlot != null && this.theSlot.getHasStack()) {
+            this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, GuiScreen.isCtrlKeyDown() ? 1 : 0, 4);
+            ci.cancel();
+        }
+    }
+
     @Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/inventory/GuiContainer;drawGuiContainerBackgroundLayer(FII)V"))
     private void sarcio$blendBackground(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         GlStateManager.enableBlend();
