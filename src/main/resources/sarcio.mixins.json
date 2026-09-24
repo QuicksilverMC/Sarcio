@@ -117,6 +117,8 @@
     "bugfix.render.tileentity.TileEntityRendererDispatcherMixin",
     "bugfix.render.tileentity.TileEntitySkullRendererMixin",
     "bugfix.render.WorldRendererMixin",
+    "core.ChunkGapLightingAccessor",
+    "core.ChunkProviderClientMixin",
     "core.TimerMixin",
     "memory_management.MinecraftMixin",
     "memory_management.network.PacketThreadUtilRunnableMixin",
