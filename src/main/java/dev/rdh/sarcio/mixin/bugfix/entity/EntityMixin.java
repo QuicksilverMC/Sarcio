@@ -8,12 +8,12 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(Entity.class)
 public class EntityMixin {
-    @ModifyExpressionValue(method = "getBrightnessForRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isBlockLoaded(Lnet/minecraft/util/BlockPos;)Z"))
+    @ModifyExpressionValue(method = "getLightLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isChunkLoaded(Lnet/minecraft/util/math/BlockPos;)Z"))
     private boolean sarcio$fixOobEntityBrightness(boolean original) {
         return true;
     }
 
-    @WrapWithCondition(method = "spawnRunningParticles", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;createRunningParticles()V"))
+    @WrapWithCondition(method = "tickSprintingEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;doSprintingEffect()V"))
     private boolean sarcio$onlyRunningParticlesOnGround(Entity instance) {
         return instance.onGround;
     }

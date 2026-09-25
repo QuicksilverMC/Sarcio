@@ -1,11 +1,11 @@
 package dev.rdh.sarcio.mixin.core;
 
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(Chunk.class)
+@Mixin(WorldChunk.class)
 public interface ChunkGapLightingAccessor {
-	@Accessor("isGapLightingUpdated")
+	@Accessor("recheckGaps")
 	boolean sarcio$isGapLightingUpdated();
 }

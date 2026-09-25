@@ -1,8 +1,8 @@
 package dev.rdh.sarcio.mixin.allocation_rate.util;
 
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3i;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
@@ -71,11 +71,11 @@ abstract class BlockPosMixin extends Vec3i {
 	 * @reason save a few allocations
 	 */
 	@Overwrite
-	public BlockPos offset(EnumFacing facing) {
+	public BlockPos offset(Direction facing) {
 		return new BlockPos(
-			this.getX() + facing.getFrontOffsetX(),
-			this.getY() + facing.getFrontOffsetY(),
-			this.getZ() + facing.getFrontOffsetZ()
+			this.getX() + facing.getOffsetX(),
+			this.getY() + facing.getOffsetY(),
+			this.getZ() + facing.getOffsetZ()
 		);
 	}
 }

@@ -1,7 +1,7 @@
 package dev.rdh.sarcio.mixin.allocation_rate.util;
 
 import dev.rdh.sarcio.util.CompactSineLUT;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MathHelper.class)
 abstract class MathHelperMixin {
-	@Shadow @Final @Mutable private static float[] SIN_TABLE;
+	@Shadow @Final @Mutable private static float[] SINE_TABLE;
 
 	@Inject(method = "<clinit>", at = @At("RETURN"))
 	private static void sarcio$buildCompactTable(CallbackInfo ci) {
-		CompactSineLUT.init(SIN_TABLE);
-		SIN_TABLE = null;
+		CompactSineLUT.init(SINE_TABLE);
+		SINE_TABLE = null;
 	}
 
 	/**

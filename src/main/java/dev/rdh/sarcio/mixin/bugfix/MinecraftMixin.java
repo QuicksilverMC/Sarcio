@@ -1,9 +1,9 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiScreenWorking;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.gui.screen.ProgressScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.options.KeyBinding;
 import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,18 +13,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
-    @Inject(method = "displayGuiScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;setIngameFocus()V"))
-    private void sarcio$reapplyKeybinds(GuiScreen guiScreenIn, CallbackInfo ci) {
-        for (KeyBinding keyBinding : KeyBinding.keybindArray) {
+    @Inject(method = "openScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;lockMouse()V"))
+    private void sarcio$reapplyKeybinds(Screen guiScreenIn, CallbackInfo ci) {
+        for (KeyBinding keyBinding : KeyBinding.ALL) {
             int keyCode = keyBinding.getKeyCode();
             if (keyCode > 0 && keyCode < Keyboard.KEYBOARD_SIZE) {
-                KeyBinding.setKeyBindState(keyCode, Keyboard.isKeyDown(keyCode));
+                KeyBinding.set(keyCode, Keyboard.isKeyDown(keyCode));
             }
         }
     }
 
-    @ModifyArg(method = "launchIntegratedServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;displayGuiScreen(Lnet/minecraft/client/gui/GuiScreen;)V"))
-    private GuiScreen sarcio$showWorkingScreen(GuiScreen guiScreenIn) {
-        return new GuiScreenWorking();
+    @ModifyArg(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;openScreen(Lnet/minecraft/client/gui/screen/Screen;)V"))
+    private Screen sarcio$showWorkingScreen(Screen guiScreenIn) {
+        return new ProgressScreen();
     }
 }

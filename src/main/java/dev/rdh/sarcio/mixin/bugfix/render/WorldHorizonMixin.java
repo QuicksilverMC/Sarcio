@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(World.class)
 public class WorldHorizonMixin {
-    @ModifyExpressionValue(method = "getHorizon", at = @At(value = "CONSTANT", args = "doubleValue=63.0"))
+    @ModifyExpressionValue(method = "getHorizonHeight", at = @At(value = "CONSTANT", args = "doubleValue=63.0"))
     private double sarcio$horizonAtVoid(double original) {
         return 0.0D;
     }

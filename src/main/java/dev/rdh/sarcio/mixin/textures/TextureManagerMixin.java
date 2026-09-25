@@ -1,9 +1,9 @@
 package dev.rdh.sarcio.mixin.textures;
 
 import java.util.Map;
-import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.render.texture.Texture;
+import net.minecraft.client.render.texture.TextureManager;
+import net.minecraft.resource.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,10 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TextureManager.class)
 abstract class TextureManagerMixin {
-	@Shadow @Final private Map<ResourceLocation, ITextureObject> mapTextureObjects;
+	@Shadow @Final private Map<Identifier, Texture> textures;
 
-	@Inject(method = "deleteTexture", at = @At("TAIL"))
-	private void removeDeletedTexture(ResourceLocation location, CallbackInfo ci) {
-		this.mapTextureObjects.remove(location);
+	@Inject(method = "close", at = @At("TAIL"))
+	private void removeDeletedTexture(Identifier location, CallbackInfo ci) {
+		this.textures.remove(location);
 	}
 }

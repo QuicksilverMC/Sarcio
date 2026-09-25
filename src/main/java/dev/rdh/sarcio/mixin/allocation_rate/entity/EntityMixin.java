@@ -11,22 +11,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 abstract class EntityMixin {
-	@Shadow public World worldObj;
+	@Shadow public World world;
 
 	@Unique private long sarcio$brightnessTick = Long.MIN_VALUE;
 	@Unique private int sarcio$brightnessValue;
 
-	@Inject(method = "getBrightnessForRender", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "getLightLevel", at = @At("HEAD"), cancellable = true)
 	private void sarcio$brightnessCacheHit(float partialTicks, CallbackInfoReturnable<Integer> cir) {
-		if (this.worldObj != null && this.sarcio$brightnessTick == this.worldObj.getTotalWorldTime()) {
+		if (this.world != null && this.sarcio$brightnessTick == this.world.getTime()) {
 			cir.setReturnValue(this.sarcio$brightnessValue);
 		}
 	}
 
-	@Inject(method = "getBrightnessForRender", at = @At("RETURN"))
+	@Inject(method = "getLightLevel", at = @At("RETURN"))
 	private void sarcio$brightnessCacheStore(float partialTicks, CallbackInfoReturnable<Integer> cir) {
-		if (this.worldObj != null) {
-			this.sarcio$brightnessTick = this.worldObj.getTotalWorldTime();
+		if (this.world != null) {
+			this.sarcio$brightnessTick = this.world.getTime();
 			this.sarcio$brightnessValue = cir.getReturnValue();
 		}
 	}

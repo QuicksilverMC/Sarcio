@@ -1,60 +1,58 @@
 package dev.rdh.sarcio.util;
 
-import dev.rdh.sarcio.mixin.allocation_rate.entity.ChunkEntityListsAccessor;
-import dev.rdh.sarcio.mixin.allocation_rate.entity.ClassInheritanceMultiMapAccessor;
+import dev.rdh.sarcio.mixin.allocation_rate.entity.WorldChunkAccessor;
+import dev.rdh.sarcio.mixin.allocation_rate.entity.TypeInstanceMultiMapAccessor;
 import java.util.List;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ClassInheritanceMultiMap;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.MathHelper;
+import net.minecraft.entity.EntityFilter;
+import net.minecraft.util.TypeInstanceMultiMap;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.WorldChunk;
 
 public final class EntityQuery {
 	private EntityQuery() {}
 
-	public static void addCollisionBoxes(World world, Entity subject, AxisAlignedBB queryBox,
-		AxisAlignedBB collisionBox, List<AxisAlignedBB> boxes) {
+	public static void addCollisionBoxes(World world, Entity subject, Box queryBox, Box collisionBox, List<Box> boxes) {
 		scan(world, subject, queryBox, collisionBox, boxes);
 	}
 
-	public static void pushCollidingEntities(World world, Entity subject, AxisAlignedBB queryBox) {
+	public static void pushCollidingEntities(World world, Entity subject, Box queryBox) {
 		scan(world, subject, queryBox, null, null);
 	}
 
-	private static void scan(World world, Entity subject, AxisAlignedBB queryBox,
-		AxisAlignedBB collisionBox, List<AxisAlignedBB> boxes) {
-		int minChunkX = MathHelper.floor_double((queryBox.minX - 2.0) / 16.0);
-		int maxChunkX = MathHelper.floor_double((queryBox.maxX + 2.0) / 16.0);
-		int minChunkZ = MathHelper.floor_double((queryBox.minZ - 2.0) / 16.0);
-		int maxChunkZ = MathHelper.floor_double((queryBox.maxZ + 2.0) / 16.0);
+	private static void scan(World world, Entity subject, Box queryBox, Box collisionBox, List<Box> boxes) {
+		int minChunkX = MathHelper.floor((queryBox.minX - 2.0) / 16.0);
+		int maxChunkX = MathHelper.floor((queryBox.maxX + 2.0) / 16.0);
+		int minChunkZ = MathHelper.floor((queryBox.minZ - 2.0) / 16.0);
+		int maxChunkZ = MathHelper.floor((queryBox.maxZ + 2.0) / 16.0);
 
 		for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
 			for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
-				if (!world.getChunkProvider().chunkExists(chunkX, chunkZ)) {
+				if (!world.getChunkSource().hasChunk(chunkX, chunkZ)) {
 					continue;
 				}
 
-				Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
-				ClassInheritanceMultiMap<Entity>[] entityLists = ((ChunkEntityListsAccessor) chunk).sarcio$getEntityLists();
-				int minSection = MathHelper.clamp_int(
-					MathHelper.floor_double((queryBox.minY - 2.0) / 16.0), 0, entityLists.length - 1
+				WorldChunk chunk = world.getChunkAt(chunkX, chunkZ);
+				TypeInstanceMultiMap<Entity>[] entityLists = ((WorldChunkAccessor) chunk).sarcio$getEntities();
+				int minSection = MathHelper.clamp(
+					MathHelper.floor((queryBox.minY - 2.0) / 16.0), 0, entityLists.length - 1
 				);
-				int maxSection = MathHelper.clamp_int(
-					MathHelper.floor_double((queryBox.maxY + 2.0) / 16.0), 0, entityLists.length - 1
+				int maxSection = MathHelper.clamp(
+					MathHelper.floor((queryBox.maxY + 2.0) / 16.0), 0, entityLists.length - 1
 				);
 
 				for (int section = minSection; section <= maxSection; section++) {
-					List<Entity> entities = ((ClassInheritanceMultiMapAccessor) entityLists[section]).sarcio$getValues();
+					List<Entity> entities = ((TypeInstanceMultiMapAccessor) entityLists[section]).sarcio$getInstances();
 					for (int i = 0; i < entities.size(); i++) {
 						Entity entity = entities.get(i);
-						if (entity != subject && entity.getEntityBoundingBox().intersectsWith(queryBox)) {
+						if (entity != subject && entity.getShape().intersects(queryBox)) {
 							process(subject, entity, collisionBox, boxes);
 							Entity[] parts = entity.getParts();
 							if (parts != null) {
 								for (Entity part : parts) {
-									if (part != subject && part.getEntityBoundingBox().intersectsWith(queryBox)) {
+									if (part != subject && part.getShape().intersects(queryBox)) {
 										process(subject, part, collisionBox, boxes);
 									}
 								}
@@ -66,28 +64,28 @@ public final class EntityQuery {
 		}
 	}
 
-	private static void process(Entity subject, Entity entity, AxisAlignedBB collisionBox,
-		List<AxisAlignedBB> boxes) {
-		if (!EntitySelectors.NOT_SPECTATING.apply(entity)) {
+	private static void process(Entity subject, Entity entity, Box collisionBox,
+		List<Box> boxes) {
+		if (!EntityFilter.NOT_SPECTATOR.apply(entity)) {
 			return;
 		}
 		if (boxes == null) {
-			if (entity.canBePushed()) {
-				entity.applyEntityCollision(subject);
+			if (entity.isPushable()) {
+				entity.push(subject);
 			}
 			return;
 		}
-		if (subject.riddenByEntity == entity || subject.ridingEntity == entity) {
+		if (subject.rider == entity || subject.vehicle == entity) {
 			return;
 		}
 
-		AxisAlignedBB box = entity.getCollisionBoundingBox();
-		if (box != null && box.intersectsWith(collisionBox)) {
+		Box box = entity.getCollisionShape();
+		if (box != null && box.intersects(collisionBox)) {
 			boxes.add(box);
 		}
 
-		box = subject.getCollisionBox(entity);
-		if (box != null && box.intersectsWith(collisionBox)) {
+		box = subject.getCollisionAgainstShape(entity);
+		if (box != null && box.intersects(collisionBox)) {
 			boxes.add(box);
 		}
 	}

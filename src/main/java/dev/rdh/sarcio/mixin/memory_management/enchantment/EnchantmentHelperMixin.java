@@ -5,13 +5,13 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.rdh.sarcio.util.EnchantmentReferenceCleaner;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.living.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(EnchantmentHelper.class)
 abstract class EnchantmentHelperMixin {
-	@WrapMethod(method = "applyThornEnchantments")
-	private static void clearHurtIterator(EntityLivingBase user, Entity attacker, Operation<Void> original) {
+	@WrapMethod(method = "applyProtectionWildcard")
+	private static void clearHurtIterator(LivingEntity user, Entity attacker, Operation<Void> original) {
 		try {
 			original.call(user, attacker);
 		} finally {
@@ -19,8 +19,8 @@ abstract class EnchantmentHelperMixin {
 		}
 	}
 
-	@WrapMethod(method = "applyArthropodEnchantments")
-	private static void clearDamageIterator(EntityLivingBase user, Entity target, Operation<Void> original) {
+	@WrapMethod(method = "applyDamageWildcard")
+	private static void clearDamageIterator(LivingEntity user, Entity target, Operation<Void> original) {
 		try {
 			original.call(user, target);
 		} finally {

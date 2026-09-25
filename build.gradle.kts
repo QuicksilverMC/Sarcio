@@ -14,7 +14,7 @@ java.toolchain {
 @Suppress("MayBeConstant")
 object Versions {
     val minecraft = "1.8.9"
-    val feather = "1"
+    val feather = "2"
     val osl = "0.20.3"
     val fabric = "0.19.3"
     val celeritas = "2.4.0-dev.5"
@@ -42,8 +42,7 @@ repositories {
 
 dependencies {
     minecraft("com.mojang:minecraft:${Versions.minecraft}")
-//    mappings(ploceus.featherMappings(Versions.feather))
-    mappings(ploceus.mcpMappings("stable", "22"))
+    mappings(ploceus.featherMappings(Versions.feather))
 
     modImplementation("net.fabricmc:fabric-loader:${Versions.fabric}")
     ploceus.dependOsl(Versions.osl)

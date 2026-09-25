@@ -1,5 +1,6 @@
 package dev.rdh.sarcio;
 
+import it.unimi.dsi.fastutil.bytes.ByteArrays;
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.client.Minecraft;
@@ -14,7 +15,7 @@ public class SarcioMod implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Sarcio initializing");
 		if (CONFIG.releaseCrashReserve) {
-			Minecraft.memoryReserve = new byte[0];
+			Minecraft.MEMORY_RESERVED_FOR_CRASH = ByteArrays.EMPTY_ARRAY;
 		}
 
 		boolean hasCeleritas;

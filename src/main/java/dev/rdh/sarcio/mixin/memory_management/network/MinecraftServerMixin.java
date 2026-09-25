@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftServer.class)
 abstract class MinecraftServerMixin {
-	@Inject(method = "addFaviconToStatusResponse", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/ServerStatusResponse;setFavicon(Ljava/lang/String;)V", shift = At.Shift.AFTER))
+	@Inject(method = "setStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/ServerStatus;setFavicon(Ljava/lang/String;)V", shift = At.Shift.AFTER))
 	private void releaseFaviconBuffer(CallbackInfo ci, @Local(ordinal = 1) ByteBuf encoded) {
 		encoded.release();
 	}

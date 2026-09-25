@@ -1,10 +1,10 @@
 package dev.rdh.sarcio.mixin.allocation_rate.world;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,25 +16,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
 abstract class WorldLightingMixin {
-	@Unique private static final EnumFacing[] sarcio$facings = EnumFacing.values();
-	@Unique private final BlockPos.MutableBlockPos sarcio$neighborPosition = new BlockPos.MutableBlockPos();
-	@Unique private final BlockPos.MutableBlockPos sarcio$rawLightPosition = new BlockPos.MutableBlockPos();
+	@Unique private static final Direction[] sarcio$facings = Direction.values();
+	@Unique private final BlockPos.Mutable sarcio$neighborPosition = new BlockPos.Mutable();
+	@Unique private final BlockPos.Mutable sarcio$rawLightPosition = new BlockPos.Mutable();
 
-	@Shadow public abstract boolean canSeeSky(BlockPos pos);
-	@Shadow public abstract IBlockState getBlockState(BlockPos pos);
-	@Shadow public abstract int getLightFor(EnumSkyBlock type, BlockPos pos);
+	@Shadow public abstract boolean hasSkyAccess(BlockPos pos);
+	@Shadow public abstract BlockState getBlockState(BlockPos pos);
+	@Shadow public abstract int getLight(LightType type, BlockPos pos);
 
-	@Inject(method = "getRawLight", at = @At("HEAD"), cancellable = true)
-	private void reuseNeighborPosition(BlockPos pos, EnumSkyBlock lightType, CallbackInfoReturnable<Integer> cir) {
-		if (lightType == EnumSkyBlock.SKY && this.canSeeSky(pos)) {
+	@Inject(method = "findLight", at = @At("HEAD"), cancellable = true)
+	private void reuseNeighborPosition(BlockPos pos, LightType lightType, CallbackInfoReturnable<Integer> cir) {
+		if (lightType == LightType.SKY && this.hasSkyAccess(pos)) {
 			cir.setReturnValue(15);
 			return;
 		}
 
 		Block block = this.getBlockState(pos).getBlock();
-		int light = lightType == EnumSkyBlock.SKY ? 0 : block.getLightValue();
-		int opacity = block.getLightOpacity();
-		if (opacity >= 15 && block.getLightValue() > 0) {
+		int light = lightType == LightType.SKY ? 0 : block.getLight();
+		int opacity = block.getOpacity();
+		if (opacity >= 15 && block.getLight() > 0) {
 			opacity = 1;
 		}
 		opacity = Math.max(1, opacity);
@@ -44,14 +44,14 @@ abstract class WorldLightingMixin {
 			return;
 		}
 
-		BlockPos.MutableBlockPos neighbor = this.sarcio$rawLightPosition;
-		for (EnumFacing facing : sarcio$facings) {
+		BlockPos.Mutable neighbor = this.sarcio$rawLightPosition;
+		for (Direction facing : sarcio$facings) {
 			neighbor.set(
-				pos.getX() + facing.getFrontOffsetX(),
-				pos.getY() + facing.getFrontOffsetY(),
-				pos.getZ() + facing.getFrontOffsetZ()
+				pos.getX() + facing.getOffsetX(),
+				pos.getY() + facing.getOffsetY(),
+				pos.getZ() + facing.getOffsetZ()
 			);
-			light = Math.max(light, this.getLightFor(lightType, neighbor) - opacity);
+			light = Math.max(light, this.getLight(lightType, neighbor) - opacity);
 			if (light >= 14) {
 				break;
 			}
@@ -60,51 +60,51 @@ abstract class WorldLightingMixin {
 	}
 
 	@Redirect(
-		method = {"getLight(Lnet/minecraft/util/BlockPos;Z)I", "getLightFromNeighborsFor"},
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/BlockPos;up()Lnet/minecraft/util/BlockPos;")
+		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;up()Lnet/minecraft/util/math/BlockPos;")
 	)
 	private BlockPos reuseUpPosition(BlockPos pos) {
-		return offset(pos, EnumFacing.UP);
+		return offset(pos, Direction.UP);
 	}
 
 	@Redirect(
-		method = {"getLight(Lnet/minecraft/util/BlockPos;Z)I", "getLightFromNeighborsFor"},
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/BlockPos;east()Lnet/minecraft/util/BlockPos;")
+		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;east()Lnet/minecraft/util/math/BlockPos;")
 	)
 	private BlockPos reuseEastPosition(BlockPos pos) {
-		return offset(pos, EnumFacing.EAST);
+		return offset(pos, Direction.EAST);
 	}
 
 	@Redirect(
-		method = {"getLight(Lnet/minecraft/util/BlockPos;Z)I", "getLightFromNeighborsFor"},
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/BlockPos;west()Lnet/minecraft/util/BlockPos;")
+		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;west()Lnet/minecraft/util/math/BlockPos;")
 	)
 	private BlockPos reuseWestPosition(BlockPos pos) {
-		return offset(pos, EnumFacing.WEST);
+		return offset(pos, Direction.WEST);
 	}
 
 	@Redirect(
-		method = {"getLight(Lnet/minecraft/util/BlockPos;Z)I", "getLightFromNeighborsFor"},
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/BlockPos;south()Lnet/minecraft/util/BlockPos;")
+		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;south()Lnet/minecraft/util/math/BlockPos;")
 	)
 	private BlockPos reuseSouthPosition(BlockPos pos) {
-		return offset(pos, EnumFacing.SOUTH);
+		return offset(pos, Direction.SOUTH);
 	}
 
 	@Redirect(
-		method = {"getLight(Lnet/minecraft/util/BlockPos;Z)I", "getLightFromNeighborsFor"},
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/BlockPos;north()Lnet/minecraft/util/BlockPos;")
+		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;north()Lnet/minecraft/util/math/BlockPos;")
 	)
 	private BlockPos reuseNorthPosition(BlockPos pos) {
-		return offset(pos, EnumFacing.NORTH);
+		return offset(pos, Direction.NORTH);
 	}
 
 	@Unique
-	private BlockPos offset(BlockPos pos, EnumFacing facing) {
+	private BlockPos offset(BlockPos pos, Direction facing) {
 		return this.sarcio$neighborPosition.set(
-			pos.getX() + facing.getFrontOffsetX(),
-			pos.getY() + facing.getFrontOffsetY(),
-			pos.getZ() + facing.getFrontOffsetZ()
+			pos.getX() + facing.getOffsetX(),
+			pos.getY() + facing.getOffsetY(),
+			pos.getZ() + facing.getOffsetZ()
 		);
 	}
 }

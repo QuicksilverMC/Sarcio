@@ -1,4 +1,4 @@
 classTweaker v2 named
 
-accessible field net/minecraft/client/settings/KeyBinding keybindArray Ljava/util/List;
-accessible class net/minecraft/client/renderer/tileentity/TileEntityBannerRenderer$TimedBannerTexture
+accessible field net/minecraft/client/options/KeyBinding ALL Ljava/util/List;
+accessible class net/minecraft/client/render/block/entity/BannerRenderer$CachedTexture
