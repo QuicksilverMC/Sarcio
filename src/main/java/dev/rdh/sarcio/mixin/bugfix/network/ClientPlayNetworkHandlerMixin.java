@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayNetworkHandler.class)
 public class ClientPlayNetworkHandlerMixin {
     @WrapWithCondition(
-        method = "handleSignUpdate",
+        method = "handleSignBlockEntityUpdate",
         slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=Unable to locate sign at ")),
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;addChatMessage(Lnet/minecraft/text/Text;)V")
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;sendMessage(Lnet/minecraft/text/Text;)V")
     )
     private boolean sarcio$hideSignDebugMessage(LocalClientPlayerEntity player, Text message) {
         return false;

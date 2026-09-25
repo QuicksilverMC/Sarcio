@@ -19,14 +19,14 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<ClientPla
         super(null, null, 0);
     }
 
-    @Inject(method = {"renderRightArm", "renderLeftArm"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/model/entity/PlayerModel;isSneak:Z", opcode = Opcodes.PUTFIELD))
+    @Inject(method = {"renderRightArm", "renderLeftArm"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/model/entity/PlayerModel;sneaking:Z", opcode = Opcodes.PUTFIELD))
     private void sarcio$disableRidingArm(ClientPlayerEntity clientPlayer, CallbackInfo ci) {
         super.getModel().riding = false;
     }
 
-    @Definition(id = "bipedHeadwear", field = "Lnet/minecraft/client/render/model/entity/PlayerModel;bipedHeadwear:Lnet/minecraft/client/render/model/ModelPart;")
-    @Definition(id = "showModel", field = "Lnet/minecraft/client/render/model/ModelPart;visible:Z")
-    @Expression("?.bipedHeadwear.showModel = @(true)")
+    @Definition(id = "hat", field = "Lnet/minecraft/client/render/model/entity/PlayerModel;hat:Lnet/minecraft/client/render/model/ModelPart;")
+    @Definition(id = "visible", field = "Lnet/minecraft/client/render/model/ModelPart;visible:Z")
+    @Expression("?.hat.visible = @(true)")
     @ModifyExpressionValue(method = "setModelStatus", at = @At("MIXINEXTRAS:EXPRESSION"))
     private boolean sarcio$respectHatInSpectator(boolean original, ClientPlayerEntity clientPlayer) {
         return clientPlayer.isModelPartVisible(PlayerModelPart.HAT);

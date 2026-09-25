@@ -24,12 +24,12 @@ public class GameRendererMixin {
     @Shadow
     private Minecraft minecraft;
 
-    @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getLightBrightness(Lnet/minecraft/util/math/BlockPos;)F"))
+    @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getBrightness(Lnet/minecraft/util/math/BlockPos;)F"))
     private BlockPos sarcio$fixSkyDarkening(BlockPos original) {
         return new BlockPos(this.minecraft.getCamera().getEyePosition(1.0F));
     }
 
-    @Inject(method = "updateLightMap", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;isPotionActive(Lnet/minecraft/entity/living/effect/StatusEffect;)Z"))
+    @Inject(method = "updateLightMap", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;hasStatusEffect(Lnet/minecraft/entity/living/effect/StatusEffect;)Z"))
     private void sarcio$clampBeforeNightVision(float partialTicks, CallbackInfo ci, @Local(ordinal = 11) LocalFloatRef red, @Local(ordinal = 12) LocalFloatRef green, @Local(ordinal = 13) LocalFloatRef blue) {
         red.set(Math.min(red.get(), 1.0F));
         green.set(Math.min(green.get(), 1.0F));
