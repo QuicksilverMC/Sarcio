@@ -22,7 +22,7 @@ public class SarcioMixinPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		if (mixinClassName.endsWith("bugfix.render.RenderGlobalMixin") && FabricLoader.getInstance().isModLoaded("argentum")) {
+		if (mixinClassName.endsWith("bugfix.render.WorldRendererMixin") && FabricLoader.getInstance().isModLoaded("argentum")) {
 			return false;
 		}
 
