@@ -98,6 +98,7 @@
     "bugfix.render.ItemModelShaperMixin",
     "bugfix.render.LiquidRendererMixin",
     "bugfix.render.ParticleManagerMixin",
+    "bugfix.render.ProgressRendererMixin",
     "bugfix.render.RenderItemCullFaceMixin",
     "bugfix.render.RenderItemGlintMixin",
     "bugfix.render.VertexBufferMixin",
