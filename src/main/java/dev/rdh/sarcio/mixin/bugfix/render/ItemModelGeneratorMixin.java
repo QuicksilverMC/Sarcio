@@ -1,4 +1,4 @@
-package dev.rdh.sarcio.mixin.bugfix.render.model;
+package dev.rdh.sarcio.mixin.bugfix.render;
 
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
