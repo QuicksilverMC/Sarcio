@@ -113,6 +113,7 @@
     "bugfix.render.WorldHorizonMixin",
     "bugfix.render.tileentity.MovingBlockRendererMixin",
     "bugfix.render.VertexBufferMixin",
+    "bugfix.render.model.ItemModelGeneratorMixin",
     "bugfix.render.tileentity.BannerRendererMixin",
     "bugfix.render.tileentity.BlockEntityRenderDispatcherMixin",
     "bugfix.render.tileentity.SkullRendererMixin",
