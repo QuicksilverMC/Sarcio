@@ -3,6 +3,7 @@ package dev.rdh.sarcio.mixin.bugfix.network;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
 import net.minecraft.client.gui.GameGui;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.handler.ClientPlayNetworkHandler;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,5 +29,10 @@ public class ClientPlayNetworkHandlerMixin {
         GameGui ingameGUI = Minecraft.getInstance().gui;
         ingameGUI.setTitles("", "", -1, -1, -1);
         ingameGUI.resetTitleTimes();
+    }
+
+    @WrapWithCondition(method = {"handleLogin", "handlePlayerRespawn"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;openScreen(Lnet/minecraft/client/gui/screen/Screen;)V"))
+    private boolean sarcio$hideDownloadingScreen(Minecraft instance, Screen screen) {
+        return false;
     }
 }
