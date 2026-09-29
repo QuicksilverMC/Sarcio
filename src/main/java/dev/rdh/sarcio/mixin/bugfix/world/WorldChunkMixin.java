@@ -1,13 +1,7 @@
 package dev.rdh.sarcio.mixin.bugfix.world;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 
-import com.google.common.collect.Iterators;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.rdh.sarcio.util.WorldExt;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Final;
@@ -33,11 +27,5 @@ public class WorldChunkMixin {
     @Inject(method = "setHeightMap", at = @At("TAIL"))
     private void sarcio$updateHeightMapMinimum(int[] newHeightMap, CallbackInfo ci) {
         this.lowestHeight = Arrays.stream(this.heightMap).min().getAsInt();
-    }
-
-    @WrapOperation(method = "unload", at = @At(value = "INVOKE", target = "Ljava/util/Collection;iterator()Ljava/util/Iterator;", ordinal = 0))
-    private Iterator<?> sarcio$unloadTileEntity(Collection<?> instance, Operation<Iterator<?>> original) {
-        ((WorldExt) this.world).sarcio$markTileEntitiesInChunkForRemoval((WorldChunk) (Object) this);
-        return Iterators.emptyIterator();
     }
 }
