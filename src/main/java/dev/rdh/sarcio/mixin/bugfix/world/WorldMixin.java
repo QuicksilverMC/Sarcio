@@ -19,10 +19,8 @@ import java.util.Collection;
 
 @Mixin(World.class)
 public abstract class WorldMixin {
-    @Shadow
-    public abstract boolean isAreaLoaded(BlockPos center, int radius, boolean allowEmpty);
-    @Unique
-    private int sarcio$range = 17;
+    @Shadow public abstract boolean isAreaLoaded(BlockPos center, int radius, boolean allowEmpty);
+    @Unique private int sarcio$range = 17;
 
     @Inject(method = "updateLight", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V", ordinal = 0))
     private void sarcio$updateRange(LightType lightType, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {

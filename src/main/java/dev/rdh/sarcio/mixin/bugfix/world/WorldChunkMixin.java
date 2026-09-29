@@ -1,8 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.world;
 
 import java.util.Arrays;
-
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,10 +17,6 @@ public class WorldChunkMixin {
 
     @Shadow
     private int lowestHeight;
-
-    @Shadow
-    @Final
-    private World world;
 
     @Inject(method = "setHeightMap", at = @At("TAIL"))
     private void sarcio$updateHeightMapMinimum(int[] newHeightMap, CallbackInfo ci) {
