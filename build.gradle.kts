@@ -18,9 +18,10 @@ java.toolchain {
 object Versions {
     val minecraft = "1.8.9"
     val feather = "2"
-    val osl = "0.20.3"
-    val fabric = "0.19.3"
-    val celeritas = "2.4.0-dev.5"
+    val osl = "0.21.1"
+    val fabric = "0.19.5"
+    val celeritas = "2.5.0-pre.1"
+    val netty = "4.2.18.Final"
 }
 
 loom {
@@ -40,7 +41,18 @@ val celery = sourceSets.create("celery") {
 }
 
 repositories {
+    mavenCentral()
     maven("https://maven.taumc.org/releases")
+}
+
+val nettyModules = listOf(
+    "common", "buffer", "transport", "resolver", "codec-base", "handler",
+    "codec-dns", "resolver-dns", "transport-native-unix-common", "transport-classes-epoll",
+)
+
+configurations.configureEach {
+    exclude(group = "io.netty", module = "netty-all")
+    exclude(group = "com.mojang", module = "netty")
 }
 
 dependencies {
@@ -49,6 +61,10 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-loader:${Versions.fabric}")
     ploceus.dependOsl(Versions.osl)
+    nettyModules.forEach { include(implementation("io.netty:netty-$it:${Versions.netty}")!!) }
+    include(implementation("io.netty:netty-resolver-dns-classes-macos:${Versions.netty}")!!)
+    listOf("osx-x86_64", "osx-aarch_64").forEach { include(runtimeOnly("io.netty:netty-resolver-dns-native-macos:${Versions.netty}:$it")!!) }
+    listOf("linux-x86_64", "linux-aarch_64", "linux-riscv64").forEach { include(runtimeOnly("io.netty:netty-transport-native-epoll:${Versions.netty}:$it")!!) }
     add(celery.compileOnlyConfigurationName, "org.embeddedt.celeritas:celeritas-common:${Versions.celeritas}")
 }
 

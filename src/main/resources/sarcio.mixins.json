@@ -43,13 +43,15 @@
     "memory_management.location_canon.IdentifierMixin",
     "memory_management.network.MinecraftServerMixin",
     "memory_management.network.NetHandlerPlayMixin",
-    "memory_management.network.OSLNetworkingLeakMixin",
+    "memory_management.world.ChunkNibbleStorageMixin",
     "memory_management.world.AnvilChunkStorageMixin",
     "memory_management.world.BlockStateImplMixin",
     "memory_management.world.ChunkNibbleStorageMixin",
     "memory_management.world.NodeEvaluatorMixin",
-    "memory_management.world.RedstoneTorchBlockMixin",
-    "memory_management.world.WorldChunkMixin"
+    "memory_management.location_canon.IdentifierMixin",
+    "netty.ConnectionListenerMixin",
+    "netty.LegacyQueryHandlerMixin",
+    "netty.PacketByteBufMixin"
   ],
   "client": [
     "allocation_rate.entity.EntityDisplayNameMixin",
@@ -134,7 +136,11 @@
     "textures.TextureUtilMixin",
     "tweaks.MinecraftMixin",
     "tweaks.ServerListEntryWidgetMixin",
-    "tweaks.TitleScreenMixin"
+    "tweaks.ConnectionMixin",
+    "tweaks.MultiplayerServerListPingerMixin",
+    "tweaks.ServerAddressAccessor",
+    "tweaks.ServerAddressMixin",
+    "netty.LegacyPingHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
