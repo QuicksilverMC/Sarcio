@@ -2,3 +2,5 @@ classTweaker v2 named
 
 accessible field net/minecraft/client/options/KeyBinding ALL Ljava/util/List;
 accessible class net/minecraft/client/render/block/entity/BannerRenderer$CachedTexture
+accessible class net/minecraft/client/gui/screen/menu/options/LanguageOptionsScreen$LanguageSelectionListWidget
+

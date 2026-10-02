@@ -74,6 +74,7 @@
     "bugfix.gui.GameOptionsMixin",
     "bugfix.gui.InventoryMenuMixin",
     "bugfix.gui.InventoryMenuScreenMixin",
+    "bugfix.gui.LanguageSelectionListWidgetMixin",
     "bugfix.gui.MultiplayerServerListWidgetMixin",
     "bugfix.gui.OptionsScreenMixin",
     "bugfix.gui.PlayerInventoryScreenMixin",
