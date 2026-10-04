@@ -1,5 +1,6 @@
 package dev.rdh.sarcio;
 
+import net.minecraft.client.options.ServerListEntry;
 import it.unimi.dsi.fastutil.bytes.ByteArrays;
 import net.fabricmc.api.ModInitializer;
 
@@ -34,5 +35,11 @@ public class SarcioMod implements ModInitializer {
 				LOGGER.warn("Could not register Sarcio options with Celeritas", exception);
 			}
 		}
+	}
+
+	public static int chatLimit() {
+		Minecraft minecraft = Minecraft.getInstance();
+		ServerListEntry server = minecraft.getCurrentServerEntry();
+		return CONFIG.longChat && !minecraft.isIntegratedServerRunning() && server != null && server.protocol >= 315 ? 256 : 100;
 	}
 }

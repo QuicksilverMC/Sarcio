@@ -1,5 +1,7 @@
 package dev.rdh.sarcio.mixin.memory_management.enchantment;
 
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.item.ItemStack;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.rdh.sarcio.util.EnchantmentReferenceCleaner;
@@ -25,6 +27,15 @@ abstract class EnchantmentHelperMixin {
 			original.call(user, target);
 		} finally {
 			EnchantmentReferenceCleaner.clearDamageIterator();
+		}
+	}
+
+	@WrapMethod(method = "modifyProtection")
+	private static int clearProtectionModifier(ItemStack[] armor, DamageSource source, Operation<Integer> original) {
+		try {
+			return original.call(armor, source);
+		} finally {
+			EnchantmentReferenceCleaner.clearProtectionModifier();
 		}
 	}
 }

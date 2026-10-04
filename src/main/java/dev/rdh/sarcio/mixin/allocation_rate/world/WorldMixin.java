@@ -1,5 +1,7 @@
 package dev.rdh.sarcio.mixin.allocation_rate.world;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
@@ -101,5 +103,13 @@ abstract class WorldMixin {
 	)
 	private Object useLocalPlayer(List<PlayerEntity> players, int index) {
 		return this.isClient ? Minecraft.getInstance().player : players.get(index);
+	}
+
+	@WrapOperation(
+		method = "tickEntity(Lnet/minecraft/entity/Entity;Z)V",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isAreaLoaded(IIIIIIZ)Z")
+	)
+	private boolean skipClientAreaCheck(World world, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, boolean allowEmpty, Operation<Boolean> original) {
+		return this.isClient || original.call(world, minX, minY, minZ, maxX, maxY, maxZ, allowEmpty);
 	}
 }

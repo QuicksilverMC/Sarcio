@@ -19,6 +19,7 @@ public final class SarcioConfig {
 
 	public boolean releaseCrashReserve;
 	public boolean disableRealms;
+	public boolean longChat = true;
 
 	public static SarcioConfig load() {
 		if (Files.isRegularFile(PATH)) {

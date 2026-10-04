@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.tweaks;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.ProgressRenderer;
 import net.minecraft.client.world.ClientWorld;
@@ -40,5 +41,11 @@ public class MinecraftMixin {
     @WrapWithCondition(method = "setWorld(Lnet/minecraft/client/world/ClientWorld;Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/ProgressRenderer;progressStage(Ljava/lang/String;)V"))
     private boolean sarcio$skipWorldSwapProgress(ProgressRenderer instance, String message, ClientWorld world) {
         return world == null;
+    }
+
+    @WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;updateShader(Lnet/minecraft/entity/Entity;)V"))
+    private boolean sarcio$keepShaderOnPerspectiveChange(GameRenderer instance, Entity camera) {
+        Minecraft minecraft = (Minecraft) (Object) this;
+        return minecraft.getCamera() != minecraft.player;
     }
 }

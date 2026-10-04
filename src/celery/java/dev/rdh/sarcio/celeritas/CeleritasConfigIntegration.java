@@ -51,7 +51,17 @@ public final class CeleritasConfigIntegration implements OptionStorage<SarcioCon
 				.build())
 			.build();
 
-		return new OptionPage(id("options"), TextComponent.translatable("sarcio.options.pages.sarcio"), List.of(memory));
+		OptionGroup tweaks = OptionGroup.createBuilder()
+			.setId(id("tweaks"))
+			.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
+				.setId(id("long_chat"))
+				.setControl(TickBoxControl::new)
+				.setBinding((config, value) -> config.longChat = value,
+					config -> config.longChat)
+				.build())
+			.build();
+
+		return new OptionPage(id("options"), TextComponent.translatable("sarcio.options.pages.sarcio"), List.of(memory, tweaks));
 	}
 
 	private static <T> OptionIdentifier<T> id(String path) {

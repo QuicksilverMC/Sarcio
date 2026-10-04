@@ -27,6 +27,7 @@
     "bugfix.entity.ExperienceOrbEntityMixin",
     "bugfix.gui.ItemStackMixin",
     "bugfix.ScoreboardMixin",
+    "bugfix.CommandRegistryMixin",
     "bugfix.gui.StatMixin",
     "bugfix.world.WorldMixin",
     "bugfix.network.EntityPacketsMixin",
@@ -43,6 +44,7 @@
     "memory_management.enchantment.DamageWildcardMixin",
     "memory_management.enchantment.EnchantmentHelperMixin",
     "memory_management.enchantment.ProtectionWildcardMixin",
+    "memory_management.enchantment.ProtectionModifierMixin",
     "memory_management.network.NetHandlerPlayMixin",
     "memory_management.world.ChunkNibbleStorageMixin",
     "memory_management.world.AnvilChunkStorageMixin",
@@ -131,6 +133,7 @@
     "resourcepacks.CustomResourcePackMixin",
     "resourcepacks.BuiltInResourcePackMixin",
     "resourcepacks.AssetIndexMixin",
+    "resourcepacks.ResourcePacksMixin",
     "textures.TextureManagerMixin",
     "textures.TextureUtilMixin",
     "textures.HttpTextureMixin",
@@ -143,6 +146,8 @@
     "tweaks.MultiplayerServerListPingerMixin",
     "tweaks.ServerAddressAccessor",
     "tweaks.ServerAddressMixin",
+    "tweaks.ChatScreenMixin",
+    "tweaks.ChatMessageC2SPacketMixin",
     "netty.LegacyPingHandlerMixin"
   ],
   "injectors": {

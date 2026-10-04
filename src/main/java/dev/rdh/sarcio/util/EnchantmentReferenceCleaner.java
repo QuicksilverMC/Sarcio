@@ -3,6 +3,7 @@ package dev.rdh.sarcio.util;
 public final class EnchantmentReferenceCleaner {
 	private static Clearable hurtIterator;
 	private static Clearable damageIterator;
+	private static Clearable protectionModifier;
 
 	private EnchantmentReferenceCleaner() {
 	}
@@ -13,6 +14,14 @@ public final class EnchantmentReferenceCleaner {
 
 	public static void registerDamageIterator(Clearable iterator) {
 		damageIterator = iterator;
+	}
+
+	public static void registerProtectionModifier(Clearable modifier) {
+		protectionModifier = modifier;
+	}
+
+	public static void clearProtectionModifier() {
+		protectionModifier.clearReferences();
 	}
 
 	public static void clearHurtIterator() {

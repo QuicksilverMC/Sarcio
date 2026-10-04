@@ -46,7 +46,7 @@ public class SarcioMixinPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-		if (mixinClassName.endsWith("core.LazyLoadBaseMixin")) {
+		if (mixinClassName.endsWith("core.LazySupplierMixin")) {
 			Asm.asmLazyLoadBase(targetClass);
 		}
 	}

@@ -30,4 +30,19 @@ public class ServerListMixin {
             ci.cancel();
         }
     }
+
+    @Inject(method = "swap", at = @At("HEAD"), cancellable = true)
+    private void sarcio$dontSwapOutOfBounds(int index1, int index2, CallbackInfo ci) {
+        int size = this.entries.size();
+        if (index1 < 0 || index1 >= size || index2 < 0 || index2 >= size) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "set", at = @At("HEAD"), cancellable = true)
+    private void sarcio$dontSetOutOfBounds(int index, ServerListEntry entry, CallbackInfo ci) {
+        if (index < 0 || index >= this.entries.size()) {
+            ci.cancel();
+        }
+    }
 }

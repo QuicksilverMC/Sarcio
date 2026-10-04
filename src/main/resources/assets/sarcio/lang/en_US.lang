@@ -3,3 +3,5 @@ sarcio.options.release_crash_reserve.name=Release Crash Reserve
 sarcio.options.release_crash_reserve.tooltip=Releases Minecraft's 10 MiB emergency reserve after startup.
 sarcio.options.disable_realms.name=Hide Realms Button
 sarcio.options.disable_realms.tooltip=Hides the Minecraft Realms button from the title screen.
+sarcio.options.long_chat.name=256-Character Chat
+sarcio.options.long_chat.tooltip=Allows 256-character chat messages on servers whose server list ping reported 1.11 or newer. A proxy in front of an older server can report a newer version; long messages will disconnect you there.
