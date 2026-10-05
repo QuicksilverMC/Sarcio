@@ -75,6 +75,7 @@
     "bugfix.render.ItemModelShaperMixin",
     "bugfix.ResourcePacksMixin",
     "bugfix.gui.GameOptionsMixin",
+    "bugfix.gui.WindowMixin",
     "bugfix.gui.SoundSliderWidgetMixin",
     "bugfix.gui.InventoryMenuMixin",
     "bugfix.gui.DeathScreenMixin",
