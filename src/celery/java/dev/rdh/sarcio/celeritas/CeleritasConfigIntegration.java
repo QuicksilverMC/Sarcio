@@ -35,21 +35,27 @@ public final class CeleritasConfigIntegration implements OptionStorage<SarcioCon
 
 	private static OptionPage createPage() {
 		OptionGroup memory = OptionGroup.createBuilder()
-			.setId(id("memory"))
-			.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
-				.setId(id("release_crash_reserve"))
-				.setControl(TickBoxControl::new)
-				.setBinding((config, value) -> config.releaseCrashReserve = value,
-					config -> config.releaseCrashReserve)
-				.setFlags(OptionFlag.REQUIRES_GAME_RESTART)
-				.build())
-			.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
-				.setId(id("disable_realms"))
-				.setControl(TickBoxControl::new)
-				.setBinding((config, value) -> config.disableRealms = value,
-						config -> config.disableRealms)
-				.build())
-			.build();
+				.setId(id("memory"))
+				.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
+						.setId(id("release_crash_reserve"))
+						.setControl(TickBoxControl::new)
+						.setBinding((config, value) -> config.releaseCrashReserve = value,
+								config -> config.releaseCrashReserve)
+						.setFlags(OptionFlag.REQUIRES_GAME_RESTART)
+						.build())
+				.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
+						.setId(id("disable_realms"))
+						.setControl(TickBoxControl::new)
+						.setBinding((config, value) -> config.disableRealms = value,
+								config -> config.disableRealms)
+						.build())
+				.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
+						.setId(id("persistent_keybindings"))
+						.setControl(TickBoxControl::new)
+						.setBinding((config, value) -> config.persistentKeybindings = value,
+								config -> config.persistentKeybindings)
+						.build())
+				.build();
 
 		return new OptionPage(id("options"), TextComponent.translatable("sarcio.options.pages.sarcio"), List.of(memory));
 	}
