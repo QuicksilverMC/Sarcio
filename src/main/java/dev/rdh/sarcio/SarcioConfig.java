@@ -19,7 +19,7 @@ public final class SarcioConfig {
 
 	public boolean releaseCrashReserve;
 	public boolean disableRealms;
-	public boolean persistentKeybindings;
+	public boolean persistentKeybindings = true;
 
 	public static SarcioConfig load() {
 		if (Files.isRegularFile(PATH)) {
