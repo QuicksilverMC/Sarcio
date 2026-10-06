@@ -4,11 +4,16 @@
   "version": "${version}",
   "name": "Sarcio",
   "description": "Targeted memory optimizations and bugfixes for Minecraft 1.8.9",
-  "authors": ["rdh", "Microcontrollers"],
+  "authors": ["rdh"],
+  "contributors": ["Microcontrollers"],
   "license": "LGPL-3.0-or-later",
   "environment": "client",
   "entrypoints": {
     "main": ["dev.rdh.sarcio.SarcioMod"]
+  },
+  "icon": {
+    "512": "assets/sarcio/textures/gui/512.png",
+    "64": "assets/sarcio/textures/gui/64.png"
   },
   "mixins": ["sarcio.mixins.json"],
   "accessWidener": "sarcio.classtweaker",
