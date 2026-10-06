@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
+import dev.rdh.sarcio.SarcioMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screen.ProgressScreen;
@@ -26,6 +27,8 @@ public class MinecraftMixin {
 
     @Inject(method = "openScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;lockMouse()V"))
     private void sarcio$reapplyKeybinds(Screen guiScreenIn, CallbackInfo ci) {
+        if (!SarcioMod.CONFIG.persistentKeybindings) return;
+
         for (KeyBinding keyBinding : KeyBinding.ALL) {
             int keyCode = keyBinding.getKeyCode();
             if (keyCode > 0 && keyCode < Keyboard.KEYBOARD_SIZE) {

@@ -3,3 +3,5 @@ sarcio.options.release_crash_reserve.name=Release Crash Reserve
 sarcio.options.release_crash_reserve.tooltip=Releases Minecraft's 10 MiB emergency reserve after startup.
 sarcio.options.disable_realms.name=Hide Realms Button
 sarcio.options.disable_realms.tooltip=Hides the Minecraft Realms button from the title screen.
+sarcio.options.persistent_keybindings.name=Persistent Keybindings
+sarcio.options.persistent_keybindings.tooltip=Keeps keys you are still holding pressed after a screen closes, instead of making you press them again.
