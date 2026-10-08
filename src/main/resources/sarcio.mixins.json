@@ -132,6 +132,7 @@
     "resourcepacks.CustomResourcePackMixin",
     "resourcepacks.BuiltInResourcePackMixin",
     "resourcepacks.AssetIndexMixin",
+    "resourcepacks.PackMetadataMixin",
     "textures.TextureManagerMixin",
     "textures.TextureUtilMixin",
     "textures.HttpTextureMixin",
