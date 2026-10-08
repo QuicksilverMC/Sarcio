@@ -68,6 +68,7 @@
     "bugfix.gui.TextRendererMixin",
     "bugfix.gui.InventoryMenuScreenMixin",
     "bugfix.gui.DirectConnectScreenMixin",
+    "bugfix.gui.ConnectScreenMixin",
     "bugfix.gui.PlayerInventoryScreenMixin",
     "bugfix.gui.VideoOptionsScreenMixin",
     "bugfix.gui.OptionsScreenMixin",
