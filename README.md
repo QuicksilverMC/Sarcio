@@ -11,3 +11,14 @@ memory usage optimizations, bugfixes, and general tweaks, driven by real profili
 - **Bugfixes**: fixes for long-standing vanilla bugs in rendering, entities, sounds, GUIs, and more
 - **Tweaks**: faster server list pinging, and the option to hide the Realms button
 - **Config**: With [Argentum](https://github.com/QuicksilverMC/Argentum), options are in the video settings menu; they're also under `config/sarcio.json`.
+
+## Disabling mixins from another mod
+
+A mod that replaces something Sarcio patches can ask Sarcio to leave specific mixins out. In that mod's
+`fabric.mod.json`, list them under `custom`, by name relative to `dev.rdh.sarcio.mixin`:
+
+```json
+"custom": {
+  "sarcio:disable": ["bugfix.render.WorldRendererMixin", "bugfix.render.VertexBufferMixin"]
+}
+```
