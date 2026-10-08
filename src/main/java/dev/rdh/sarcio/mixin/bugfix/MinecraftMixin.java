@@ -40,7 +40,7 @@ public class MinecraftMixin {
         if (mc.screen == null) {
             if (this.options.togglePerspectiveKey.consumeClick()) {
                 this.options.perspective = (this.options.perspective + 1) % 3;
-                if (this.options.perspective < 2) {
+                if (this.options.perspective < 2 && mc.getCamera() != mc.player) {
                     mc.gameRenderer.updateShader(this.options.perspective == 0 ? mc.getCamera() : null);
                 }
                 mc.worldRenderer.onViewChanged();
