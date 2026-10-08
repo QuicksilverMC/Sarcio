@@ -30,6 +30,7 @@
     "bugfix.gui.StatMixin",
     "bugfix.world.WorldMixin",
     "bugfix.network.EntityPacketsMixin",
+    "chunksaving.ServerWorldMixin",
     "core.SyncedDataMixin",
     "core.Long2ObjectHashMapMixin",
     "core.LazySupplierMixin",
@@ -51,7 +52,15 @@
     "memory_management.location_canon.IdentifierMixin",
     "netty.ConnectionListenerMixin",
     "netty.LegacyQueryHandlerMixin",
-    "netty.PacketByteBufMixin"
+    "netty.PacketByteBufMixin",
+    "worldgen.ChunkMapMixin",
+    "worldgen.MinecraftServerMixin",
+    "worldgen.NetherChunkGeneratorMixin",
+    "worldgen.OverworldChunkGeneratorMixin",
+    "worldgen.ProtoChunkMixin",
+    "worldgen.ServerChunkCacheMixin",
+    "worldgen.VeinFeatureMixin",
+    "worldgen.WorldCarverMixin"
   ],
   "client": [
     "allocation_rate.entity.EntityDisplayNameMixin",

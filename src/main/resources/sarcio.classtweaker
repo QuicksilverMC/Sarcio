@@ -3,3 +3,5 @@ classTweaker v2 named
 accessible field net/minecraft/client/options/KeyBinding ALL Ljava/util/List;
 accessible class net/minecraft/client/render/block/entity/BannerRenderer$CachedTexture
 accessible class net/minecraft/client/gui/screen/menu/options/LanguageOptionsScreen$LanguageSelectionListWidget
+accessible field net/minecraft/world/chunk/storage/AnvilChunkStorage dir Ljava/io/File;
+accessible field net/minecraft/world/biome/TaigaBiome variant I
