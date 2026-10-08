@@ -73,6 +73,7 @@
     "allocation_rate.render.EntityRendererMixin",
     "allocation_rate.world.WorldMixin",
     "bugfix.render.LiquidRendererMixin",
+    "bugfix.render.StitcherMixin",
     "bugfix.render.ParticleManagerMixin",
     "bugfix.entity.LivingEntityMixin",
     "bugfix.render.GameRendererMixin",
