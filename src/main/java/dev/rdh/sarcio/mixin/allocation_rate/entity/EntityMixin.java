@@ -13,25 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 abstract class EntityMixin {
 	@Shadow public World world;
 
-	@Unique private long sarcio$brightnessTick = Long.MIN_VALUE;
-	@Unique private int sarcio$brightnessValue;
 	@Unique private long sarcio$floatBrightnessTick = Long.MIN_VALUE;
 	@Unique private float sarcio$floatBrightnessValue;
-
-	@Inject(method = "getLightLevel", at = @At("HEAD"), cancellable = true)
-	private void sarcio$brightnessCacheHit(float partialTicks, CallbackInfoReturnable<Integer> cir) {
-		if (this.world != null && this.sarcio$brightnessTick == this.world.getTime()) {
-			cir.setReturnValue(this.sarcio$brightnessValue);
-		}
-	}
-
-	@Inject(method = "getLightLevel", at = @At("RETURN"))
-	private void sarcio$brightnessCacheStore(float partialTicks, CallbackInfoReturnable<Integer> cir) {
-		if (this.world != null) {
-			this.sarcio$brightnessTick = this.world.getTime();
-			this.sarcio$brightnessValue = cir.getReturnValue();
-		}
-	}
 
 	@Inject(method = "getBrightness", at = @At("HEAD"), cancellable = true)
 	private void sarcio$floatBrightnessCacheHit(float partialTicks, CallbackInfoReturnable<Float> cir) {

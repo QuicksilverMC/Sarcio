@@ -1,7 +1,9 @@
 package dev.rdh.sarcio;
 
 import it.unimi.dsi.fastutil.bytes.ByteArrays;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +16,7 @@ public class SarcioMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Sarcio initializing");
-		if (CONFIG.releaseCrashReserve) {
+		if (CONFIG.releaseCrashReserve && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 			Minecraft.MEMORY_RESERVED_FOR_CRASH = ByteArrays.EMPTY_ARRAY;
 		}
 
