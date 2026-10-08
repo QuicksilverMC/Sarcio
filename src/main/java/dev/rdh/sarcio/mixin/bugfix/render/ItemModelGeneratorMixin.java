@@ -1,5 +1,7 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -12,7 +14,6 @@ import net.minecraft.client.resource.model.BlockElementTexture;
 import net.minecraft.util.math.Direction;
 import org.lwjgl.util.vector.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,12 +35,8 @@ public abstract class ItemModelGeneratorMixin {
         return original <= 25 ? 0 : original;
     }
 
-    /**
-     * @author rdh
-     * @reason vanilla's side spans leave gaps; replace them with one face per run of edge pixels
-     */
-    @Overwrite
-    private List<BlockElement> addSideElements(final TextureAtlasSprite sprite, final String key, final int layer) {
+    @WrapMethod(method = "addSideElements")
+    private List<BlockElement> sarcio$addSideElements(final TextureAtlasSprite sprite, final String key, final int layer, final Operation<List<BlockElement>> original) {
         final int width = sprite.getWidth();
         final int height = sprite.getHeight();
         final int frameCount = sprite.getFrameCount();

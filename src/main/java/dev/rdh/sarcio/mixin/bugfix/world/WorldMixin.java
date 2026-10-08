@@ -22,11 +22,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Collection;
-import java.util.List;
 
 @Mixin(World.class)
 public abstract class WorldMixin {
@@ -37,6 +37,11 @@ public abstract class WorldMixin {
     private boolean sarcio$cameraIgnoresGlass(Block block, BlockState state, boolean stopOnLiquid, Operation<Boolean> original, @Local(argsOnly = true, ordinal = 1) Vec3d to) {
         if (to instanceof CameraRayEnd && sarcio$shouldIgnore(block)) return false;
         return original.call(block, state, stopOnLiquid);
+    }
+
+    @ModifyVariable(method = "rayTrace(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;ZZZ)Lnet/minecraft/world/HitResult;", at = @At("HEAD"), argsOnly = true, ordinal = 1)
+    private boolean sarcio$cameraIgnoresCollisionlessBlocks(boolean ignoreCollisionless, @Local(argsOnly = true, ordinal = 1) Vec3d to) {
+        return ignoreCollisionless || to instanceof CameraRayEnd;
     }
 
     @Unique
@@ -59,9 +64,8 @@ public abstract class WorldMixin {
         return this.sarcio$range;
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
-    @Redirect(method = "tickEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;removeAll(Ljava/util/Collection;)Z"))
-    private boolean sarcio$hashRemoveAll(List<?> list, Collection<?> removed) {
-        return !removed.isEmpty() && list.removeAll(new ObjectOpenHashSet<>(removed));
+    @ModifyArg(method = "tickEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;removeAll(Ljava/util/Collection;)Z"))
+    private Collection<?> sarcio$hashRemoveAll(Collection<?> removed) {
+        return removed.isEmpty() ? removed : new ObjectOpenHashSet<>(removed);
     }
 }

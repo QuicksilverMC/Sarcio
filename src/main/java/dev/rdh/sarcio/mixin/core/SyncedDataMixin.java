@@ -1,12 +1,13 @@
 package dev.rdh.sarcio.mixin.core;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import dev.rdh.sarcio.util.NoOpReadWriteLock;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 import net.minecraft.entity.data.SyncedData;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,13 +36,10 @@ abstract class SyncedDataMixin {
 		this.sarcio$index(id);
 	}
 
-	/**
-	 * @author rdh
-	 * @reason ids are 0-31, so look entries up in an array instead of the boxed map
-	 */
-	@Overwrite
-	private SyncedData.Entry getEntry(int id) {
-		return id >= 0 && id < this.sarcio$entries.length ? this.sarcio$entries[id] : this.entries.get(id);
+	@WrapMethod(method = "getEntry")
+	private SyncedData.Entry sarcio$getEntry(int id, Operation<SyncedData.Entry> original) {
+		SyncedData.Entry entry = id >= 0 && id < this.sarcio$entries.length ? this.sarcio$entries[id] : null;
+		return entry != null ? entry : original.call(id);
 	}
 
 	@Unique

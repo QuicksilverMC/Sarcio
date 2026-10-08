@@ -1,5 +1,8 @@
 package dev.rdh.sarcio.mixin.worldgen;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.rdh.sarcio.util.TerrainPrefetcher;
 import java.util.Random;
 import net.minecraft.world.World;
@@ -18,7 +21,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(OverworldChunkGenerator.class)
 abstract class OverworldChunkGeneratorMixin implements TerrainPrefetcher.Prefetchable {
@@ -31,24 +33,22 @@ abstract class OverworldChunkGeneratorMixin implements TerrainPrefetcher.Prefetc
 	@Shadow private TempleStructure temple;
 	@Shadow private OceanMonumentStructure oceanMonument;
 
-	@Redirect(method = "buildTerrain", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/biome/source/BiomeSource;getNoiseBiomes([Lnet/minecraft/world/biome/Biome;IIII)[Lnet/minecraft/world/biome/Biome;"))
-	private Biome[] sarcio$prefetchedNoiseBiomes(BiomeSource source, Biome[] biomes, int x, int z, int sizeX, int sizeZ) {
+	@WrapOperation(method = "buildTerrain", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/biome/source/BiomeSource;getNoiseBiomes([Lnet/minecraft/world/biome/Biome;IIII)[Lnet/minecraft/world/biome/Biome;"))
+	private Biome[] sarcio$prefetchedNoiseBiomes(BiomeSource source, Biome[] biomes, int x, int z, int sizeX, int sizeZ, Operation<Biome[]> original) {
 		Biome[][] prefetched = TerrainPrefetcher.BIOMES.get();
-		return prefetched != null ? prefetched[0] : source.getNoiseBiomes(biomes, x, z, sizeX, sizeZ);
+		return prefetched != null ? prefetched[0] : original.call(source, biomes, x, z, sizeX, sizeZ);
 	}
 
-	@Redirect(method = "getChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/biome/source/BiomeSource;getBiomes([Lnet/minecraft/world/biome/Biome;IIII)[Lnet/minecraft/world/biome/Biome;"))
-	private Biome[] sarcio$prefetchedBiomes(BiomeSource source, Biome[] biomes, int x, int z, int sizeX, int sizeZ) {
+	@WrapOperation(method = "getChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/biome/source/BiomeSource;getBiomes([Lnet/minecraft/world/biome/Biome;IIII)[Lnet/minecraft/world/biome/Biome;"))
+	private Biome[] sarcio$prefetchedBiomes(BiomeSource source, Biome[] biomes, int x, int z, int sizeX, int sizeZ, Operation<Biome[]> original) {
 		Biome[][] prefetched = TerrainPrefetcher.BIOMES.get();
-		return prefetched != null ? prefetched[1] : source.getBiomes(biomes, x, z, sizeX, sizeZ);
+		return prefetched != null ? prefetched[1] : original.call(source, biomes, x, z, sizeX, sizeZ);
 	}
 
 	// notifies the world's listeners, so on a worker it is left for TerrainPrefetcher.take
-	@Redirect(method = "getChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/WorldChunk;populateHeightMap()V"))
-	private void sarcio$deferHeightMap(WorldChunk chunk) {
-		if (TerrainPrefetcher.BIOMES.get() == null) {
-			chunk.populateHeightMap();
-		}
+	@WrapWithCondition(method = "getChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/WorldChunk;populateHeightMap()V"))
+	private boolean sarcio$deferHeightMap(WorldChunk chunk) {
+		return TerrainPrefetcher.BIOMES.get() == null;
 	}
 
 	@Override

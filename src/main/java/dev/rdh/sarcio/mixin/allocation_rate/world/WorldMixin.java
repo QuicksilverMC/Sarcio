@@ -1,5 +1,9 @@
 package dev.rdh.sarcio.mixin.allocation_rate.world;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
@@ -14,7 +18,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(World.class)
@@ -71,35 +74,33 @@ abstract class WorldMixin {
 		this.sarcio$renderDistance = renderDistance;
 	}
 
-	@Redirect(
+	@WrapWithCondition(
 		method = "purgeTickingChunks",
 		at = @At(value = "INVOKE", target = "Ljava/util/Set;clear()V")
 	)
-	private void keepActiveChunks(Set<ChunkPos> chunks) {
-		if (!this.sarcio$skipActiveChunkBuild) {
-			chunks.clear();
-		}
+	private boolean keepActiveChunks(Set<ChunkPos> chunks) {
+		return !this.sarcio$skipActiveChunkBuild;
 	}
 
-	@Redirect(
+	@ModifyExpressionValue(
 		method = "purgeTickingChunks",
 		at = @At(value = "INVOKE", target = "Ljava/util/List;size()I", ordinal = 0)
 	)
-	private int activeChunkPlayerCount(List<PlayerEntity> players) {
+	private int activeChunkPlayerCount(int playerCount) {
 		if (this.sarcio$skipActiveChunkBuild) {
 			return 0;
 		}
 		if (!this.isClient) {
-			return players.size();
+			return playerCount;
 		}
 		return Minecraft.getInstance().player == null ? 0 : 1;
 	}
 
-	@Redirect(
+	@WrapOperation(
 		method = "purgeTickingChunks",
 		at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;", ordinal = 0)
 	)
-	private Object useLocalPlayer(List<PlayerEntity> players, int index) {
-		return this.isClient ? Minecraft.getInstance().player : players.get(index);
+	private Object useLocalPlayer(List<PlayerEntity> players, int index, Operation<Object> original) {
+		return this.isClient ? Minecraft.getInstance().player : original.call(players, index);
 	}
 }

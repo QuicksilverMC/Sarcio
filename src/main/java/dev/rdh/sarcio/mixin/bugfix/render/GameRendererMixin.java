@@ -6,11 +6,9 @@ import dev.rdh.sarcio.util.CameraRayEnd;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.resource.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.HitResult;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +16,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
@@ -43,8 +40,8 @@ public class GameRendererMixin {
         blue.set(Math.min(blue.get(), 1.0F));
     }
 
-    @Redirect(method = "transformCamera", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;rayTrace(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/world/HitResult;"))
-    private HitResult sarcio$ignoreCollisionlessBlocks(ClientWorld instance, Vec3d from, Vec3d to) {
-        return instance.rayTrace(from, new CameraRayEnd(to), false, true, false);
+    @ModifyArg(method = "transformCamera", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;rayTrace(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/world/HitResult;"), index = 1)
+    private Vec3d sarcio$markCameraRay(Vec3d to) {
+        return new CameraRayEnd(to);
     }
 }

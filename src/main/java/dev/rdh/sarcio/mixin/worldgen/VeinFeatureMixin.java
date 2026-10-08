@@ -1,5 +1,7 @@
 package dev.rdh.sarcio.mixin.worldgen;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.google.common.base.Predicate;
 import java.util.Arrays;
 import java.util.Random;
@@ -17,7 +19,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(VeinFeature.class)
@@ -44,8 +45,8 @@ abstract class VeinFeatureMixin {
 		}
 	}
 
-	@Redirect(method = "place", at = @At(value = "NEW", target = "net/minecraft/util/math/BlockPos"))
-	private BlockPos sarcio$markVisited(int x, int y, int z, @Share("visited") LocalRef<BlockPos> visited) {
+	@WrapOperation(method = "place", at = @At(value = "NEW", target = "net/minecraft/util/math/BlockPos"))
+	private BlockPos sarcio$markVisited(int x, int y, int z, Operation<BlockPos> original, @Share("visited") LocalRef<BlockPos> visited) {
 		int bx = x - this.sarcio$minX;
 		int by = y - this.sarcio$minY;
 		int bz = z - this.sarcio$minZ;
@@ -59,16 +60,16 @@ abstract class VeinFeatureMixin {
 			v[bit >> 6] |= 1L << bit;
 		}
 
-		return new BlockPos(x, y, z);
+		return original.call(x, y, z);
 	}
 
-	@Redirect(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/BlockState;"))
-	private BlockState sarcio$skipVisited(World world, BlockPos pos, @Share("visited") LocalRef<BlockPos> visited) {
-		return pos == visited.get() ? null : world.getBlockState(pos);
+	@WrapOperation(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/BlockState;"))
+	private BlockState sarcio$skipVisited(World world, BlockPos pos, Operation<BlockState> original, @Share("visited") LocalRef<BlockPos> visited) {
+		return pos == visited.get() ? null : original.call(world, pos);
 	}
 
-	@Redirect(method = "place", at = @At(value = "INVOKE", target = "Lcom/google/common/base/Predicate;apply(Ljava/lang/Object;)Z", remap = false))
-	private boolean sarcio$skipVisited(Predicate<BlockState> replaceable, Object state) {
-		return state != null && replaceable.apply((BlockState) state);
+	@WrapOperation(method = "place", at = @At(value = "INVOKE", target = "Lcom/google/common/base/Predicate;apply(Ljava/lang/Object;)Z", remap = false))
+	private boolean sarcio$skipVisited(Predicate<BlockState> replaceable, Object state, Operation<Boolean> original) {
+		return state != null && original.call(replaceable, state);
 	}
 }

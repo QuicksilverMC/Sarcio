@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,12 +17,13 @@ import paulscode.sound.SoundSystem;
 
 @Mixin(SoundEngine.class)
 public class SoundEngineMixin {
-    @Redirect(
+    @WrapWithCondition(
         method = "play",
         slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=Unable to play unknown soundEvent: {}")),
         at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;warn(Lorg/apache/logging/log4j/Marker;Ljava/lang/String;[Ljava/lang/Object;)V", remap = false)
     )
-    private void sarcio$silenceUnknownSound(Logger logger, Marker marker, String message, Object[] args) {
+    private boolean sarcio$silenceUnknownSound(Logger logger, Marker marker, String message, Object[] args) {
+        return false;
     }
 
     @Unique

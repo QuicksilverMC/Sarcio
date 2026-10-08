@@ -1,5 +1,7 @@
 package dev.rdh.sarcio.mixin.allocation_rate.world;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -11,7 +13,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
@@ -59,43 +60,43 @@ abstract class WorldLightingMixin {
 		cir.setReturnValue(light);
 	}
 
-	@Redirect(
+	@WrapOperation(
 		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;up()Lnet/minecraft/util/math/BlockPos;")
 	)
-	private BlockPos reuseUpPosition(BlockPos pos) {
+	private BlockPos reuseUpPosition(BlockPos pos, Operation<BlockPos> original) {
 		return offset(pos, Direction.UP);
 	}
 
-	@Redirect(
+	@WrapOperation(
 		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;east()Lnet/minecraft/util/math/BlockPos;")
 	)
-	private BlockPos reuseEastPosition(BlockPos pos) {
+	private BlockPos reuseEastPosition(BlockPos pos, Operation<BlockPos> original) {
 		return offset(pos, Direction.EAST);
 	}
 
-	@Redirect(
+	@WrapOperation(
 		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;west()Lnet/minecraft/util/math/BlockPos;")
 	)
-	private BlockPos reuseWestPosition(BlockPos pos) {
+	private BlockPos reuseWestPosition(BlockPos pos, Operation<BlockPos> original) {
 		return offset(pos, Direction.WEST);
 	}
 
-	@Redirect(
+	@WrapOperation(
 		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;south()Lnet/minecraft/util/math/BlockPos;")
 	)
-	private BlockPos reuseSouthPosition(BlockPos pos) {
+	private BlockPos reuseSouthPosition(BlockPos pos, Operation<BlockPos> original) {
 		return offset(pos, Direction.SOUTH);
 	}
 
-	@Redirect(
+	@WrapOperation(
 		method = {"getRawBrightness(Lnet/minecraft/util/math/BlockPos;Z)I", "getBrightness(Lnet/minecraft/world/LightType;Lnet/minecraft/util/math/BlockPos;)I"},
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;north()Lnet/minecraft/util/math/BlockPos;")
 	)
-	private BlockPos reuseNorthPosition(BlockPos pos) {
+	private BlockPos reuseNorthPosition(BlockPos pos, Operation<BlockPos> original) {
 		return offset(pos, Direction.NORTH);
 	}
 
