@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.tweaks;
 
+import dev.rdh.sarcio.util.LongChatDetector;
 import net.minecraft.entity.Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.ProgressRenderer;
@@ -41,6 +42,13 @@ public class MinecraftMixin {
     @WrapWithCondition(method = "setWorld(Lnet/minecraft/client/world/ClientWorld;Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/ProgressRenderer;progressStage(Ljava/lang/String;)V"))
     private boolean sarcio$skipWorldSwapProgress(ProgressRenderer instance, String message, ClientWorld world) {
         return world == null;
+    }
+
+    @Inject(method = "setWorld(Lnet/minecraft/client/world/ClientWorld;Ljava/lang/String;)V", at = @At("HEAD"))
+    private void sarcio$forgetLongChatOnDisconnect(ClientWorld world, String message, CallbackInfo ci) {
+        if (world == null) {
+            LongChatDetector.detect(null); // ping again on the next join, the answer may have changed
+        }
     }
 
     @WrapWithCondition(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;updateShader(Lnet/minecraft/entity/Entity;)V"))

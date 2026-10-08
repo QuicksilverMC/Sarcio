@@ -1,6 +1,6 @@
 package dev.rdh.sarcio;
 
-import net.minecraft.client.options.ServerListEntry;
+import dev.rdh.sarcio.util.LongChatDetector;
 import it.unimi.dsi.fastutil.bytes.ByteArrays;
 import net.fabricmc.api.ModInitializer;
 
@@ -38,8 +38,6 @@ public class SarcioMod implements ModInitializer {
 	}
 
 	public static int chatLimit() {
-		Minecraft minecraft = Minecraft.getInstance();
-		ServerListEntry server = minecraft.getCurrentServerEntry();
-		return CONFIG.longChat && !minecraft.isIntegratedServerRunning() && server != null && server.protocol >= 315 ? 256 : 100;
+		return CONFIG.longChat && (Minecraft.getInstance().isIntegratedServerRunning() || LongChatDetector.supported()) ? 256 : 100;
 	}
 }
