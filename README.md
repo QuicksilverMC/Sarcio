@@ -10,7 +10,7 @@ memory usage optimizations, bugfixes, and general tweaks, driven by real profili
 - **Fewer allocations**: less garbage created each frame, so fewer lag spikes from garbage collection
 - **Bugfixes**: fixes for long-standing vanilla bugs in rendering, entities, sounds, GUIs, and more
 - **Tweaks**: faster server list pinging, and the option to hide the Realms button
-- **Config**: With [Argentum](https://github.com/QuicksilverMC/Argentum), options are in the video settings menu; they're also under `config/sarcio.json`.
+- **Config**: Options are under `config/sarcio.json`, and with [Argentum](https://github.com/QuicksilverMC/Argentum), they're also in the video settings menu.
 
 ## Disabling mixins from another mod
 
