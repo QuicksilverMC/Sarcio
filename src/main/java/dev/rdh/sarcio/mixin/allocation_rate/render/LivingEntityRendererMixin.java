@@ -22,7 +22,7 @@ abstract class LivingEntityRendererMixin {
 	)
 	private Text prepareRenderedName(LivingEntity entity) {
 		String name = entity.getName();
-		this.sarcio$renderedName = entity instanceof PlayerEntity ? Team.getMemberDisplayName(entity.getScoreboardTeam(), name) : name;
+		this.sarcio$renderedName = (entity instanceof PlayerEntity ? Team.getMemberDisplayName(entity.getScoreboardTeam(), name) : name) + "§r";
 		return sarcio$emptyName;
 	}
 
