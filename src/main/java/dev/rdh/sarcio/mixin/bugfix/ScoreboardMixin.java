@@ -37,4 +37,11 @@ public abstract class ScoreboardMixin {
 	private void sarcio$dontThrowOnStaleTeam(String player, Team team, CallbackInfo ci) {
 		ci.cancel();
 	}
+
+	@Inject(method = "removeMemberFromTeam(Ljava/lang/String;Lnet/minecraft/scoreboard/team/Team;)V", at = @At("HEAD"), cancellable = true)
+	private void sarcio$dontRemoveFromNullTeam(String player, Team team, CallbackInfo ci) {
+		if (team == null) {
+			ci.cancel();
+		}
+	}
 }
