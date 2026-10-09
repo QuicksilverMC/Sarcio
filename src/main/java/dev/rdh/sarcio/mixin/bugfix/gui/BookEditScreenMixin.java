@@ -1,5 +1,8 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import net.minecraft.text.Text;
+import org.spongepowered.asm.mixin.Unique;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.client.gui.screen.Screen;
@@ -26,5 +29,21 @@ public abstract class BookEditScreenMixin extends Screen {
     @Inject(method = "render", at = @At("HEAD"))
     private void sarcio$drawBackground(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         this.renderBackground();
+    }
+
+    @Unique
+    private Text sarcio$hoveredText;
+
+    @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/game/BookEditScreen;renderTextHoverEffect(Lnet/minecraft/text/Text;II)V"))
+    private boolean sarcio$deferHoverTooltip(BookEditScreen instance, Text text, int x, int y) {
+        this.sarcio$hoveredText = text;
+        return false;
+    }
+
+    @Inject(method = "render", at = @At("TAIL"))
+    private void sarcio$drawHoverTooltipLast(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
+        Text text = this.sarcio$hoveredText;
+        this.sarcio$hoveredText = null;
+        this.renderTextHoverEffect(text, mouseX, mouseY);
     }
 }
