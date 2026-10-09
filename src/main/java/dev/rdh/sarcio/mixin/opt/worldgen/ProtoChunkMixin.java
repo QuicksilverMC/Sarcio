@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.opt.worldgen;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.world.gen.chunk.ProtoChunk;
 import org.spongepowered.asm.mixin.Final;
@@ -7,8 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ProtoChunk.class)
 abstract class ProtoChunkMixin {
@@ -21,7 +21,7 @@ abstract class ProtoChunkMixin {
 		return new BlockState[65536];
 	}
 
-	@ModifyConstant(method = "<init>", constant = @Constant(intValue = 65536))
+	@ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=65536"))
 	private int sarcio$skipIdArray(int size) {
 		return 0;
 	}

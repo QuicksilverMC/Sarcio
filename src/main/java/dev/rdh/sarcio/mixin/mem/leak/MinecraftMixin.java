@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.leak;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.rdh.sarcio.util.ClassInfoManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.GameRenderer;
@@ -8,7 +9,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
@@ -28,10 +28,11 @@ abstract class MinecraftMixin {
 		ClassInfoManager.clear();
 	}
 
-	@Redirect(
+	@WrapWithCondition(
 		method = "setWorld(Lnet/minecraft/client/world/ClientWorld;Ljava/lang/String;)V",
 		at = @At(value = "INVOKE", target = "Ljava/lang/System;gc()V")
 	)
-	private void skipWorldTransitionGc() {
+	private boolean skipWorldTransitionGc() {
+		return false;
 	}
 }

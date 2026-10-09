@@ -1,5 +1,7 @@
 package dev.rdh.sarcio.mixin.mem.alloc.render;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.living.LivingEntity;
 import net.minecraft.entity.living.player.PlayerEntity;
@@ -26,19 +28,19 @@ abstract class LivingEntityRendererMixin {
 		return sarcio$emptyName;
 	}
 
-	@Redirect(
+	@WrapOperation(
 		method = "renderNameTag",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/text/Text;getFormattedString()Ljava/lang/String;")
 	)
-	private String usePreparedName(Text ignored) {
-		return this.sarcio$renderedName;
+	private String usePreparedName(Text name, Operation<String> original) {
+		return name == sarcio$emptyName ? this.sarcio$renderedName : original.call(name);
 	}
 
-	@Redirect(
+	@WrapOperation(
 		method = "applyRotation",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/LivingEntity;getName()Ljava/lang/String;")
 	)
-	private String skipDefaultName(LivingEntity entity) {
-		return entity instanceof PlayerEntity || entity.hasCustomName() ? entity.getName() : null;
+	private String skipDefaultName(LivingEntity entity, Operation<String> original) {
+		return entity instanceof PlayerEntity || entity.hasCustomName() ? original.call(entity) : null;
 	}
 }

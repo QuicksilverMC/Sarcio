@@ -1,19 +1,35 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.ParticleManager;
-import net.minecraft.client.entity.particle.Particle;
 import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.vertex.BufferBuilder;
-import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(ParticleManager.class)
 public class ParticleManagerMixin {
-    @WrapOperation(method = "renderLit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/particle/Particle;render(Lnet/minecraft/client/render/vertex/BufferBuilder;Lnet/minecraft/entity/Entity;FFFFFF)V"))
-    private void sarcio$useActiveRenderInfo(Particle instance, BufferBuilder worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ, Operation<Void> original) {
-        original.call(instance, worldRendererIn, entityIn, partialTicks, Camera.dx(), Camera.dy(), Camera.dz(), Camera.forwards(), Camera.sideways());
+    @ModifyArg(method = "renderLit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/particle/Particle;render(Lnet/minecraft/client/render/vertex/BufferBuilder;Lnet/minecraft/entity/Entity;FFFFFF)V"), index = 3)
+    private float sarcio$useActiveRotationX(float rotationX) {
+        return Camera.dx();
+    }
+
+    @ModifyArg(method = "renderLit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/particle/Particle;render(Lnet/minecraft/client/render/vertex/BufferBuilder;Lnet/minecraft/entity/Entity;FFFFFF)V"), index = 4)
+    private float sarcio$useActiveRotationZ(float rotationZ) {
+        return Camera.dy();
+    }
+
+    @ModifyArg(method = "renderLit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/particle/Particle;render(Lnet/minecraft/client/render/vertex/BufferBuilder;Lnet/minecraft/entity/Entity;FFFFFF)V"), index = 5)
+    private float sarcio$useActiveRotationYZ(float rotationYZ) {
+        return Camera.dz();
+    }
+
+    @ModifyArg(method = "renderLit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/particle/Particle;render(Lnet/minecraft/client/render/vertex/BufferBuilder;Lnet/minecraft/entity/Entity;FFFFFF)V"), index = 6)
+    private float sarcio$useActiveRotationXY(float rotationXY) {
+        return Camera.forwards();
+    }
+
+    @ModifyArg(method = "renderLit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/particle/Particle;render(Lnet/minecraft/client/render/vertex/BufferBuilder;Lnet/minecraft/entity/Entity;FFFFFF)V"), index = 7)
+    private float sarcio$useActiveRotationXZ(float rotationXZ) {
+        return Camera.sideways();
     }
 }

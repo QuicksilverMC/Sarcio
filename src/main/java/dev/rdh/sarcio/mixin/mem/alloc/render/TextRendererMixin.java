@@ -5,6 +5,7 @@ import net.minecraft.client.render.TextRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(TextRenderer.class)
 abstract class TextRendererMixin {
@@ -16,11 +17,11 @@ abstract class TextRendererMixin {
 		return text;
 	}
 
-	@Redirect(
+	@ModifyArg(
 		method = "drawLayer(Ljava/lang/String;Z)V",
 		at = @At(value = "INVOKE", target = "Ljava/lang/String;indexOf(I)I", ordinal = 0)
 	)
-	private int findFormattingCode(String codes, int code) {
-		return codes.indexOf(Character.toLowerCase((char)code));
+	private int findFormattingCode(int code) {
+		return Character.toLowerCase((char)code);
 	}
 }

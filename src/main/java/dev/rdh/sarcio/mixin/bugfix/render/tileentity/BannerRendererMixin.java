@@ -2,12 +2,12 @@ package dev.rdh.sarcio.mixin.bugfix.render.tileentity;
 
 import java.util.Map;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.block.entity.BannerRenderer;
-import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,14 +38,13 @@ public class BannerRendererMixin {
         return sarcio$cache(designs).getAndMoveToLast((String) pattern);
     }
 
-    @WrapOperation(method = "getTexture", at = @At(value = "INVOKE", target = "Ljava/util/Map;size()I", ordinal = 1))
-    private int sarcio$evictLeastRecentlyUsedDesign(Map<String, BannerRenderer.CachedTexture> designs, Operation<Integer> original) {
-        int size = original.call(designs);
+    @ModifyExpressionValue(method = "getTexture", at = @At(value = "INVOKE", target = "Ljava/util/Map;size()I", ordinal = 1))
+    private int sarcio$evictLeastRecentlyUsedDesign(int size) {
         if (size < SARCIO$DESIGN_LIMIT) {
             return size;
         }
 
-        BannerRenderer.CachedTexture evicted = sarcio$cache(designs).removeFirst();
+        BannerRenderer.CachedTexture evicted = sarcio$cache(TEXTURE_CACHE).removeFirst();
         Minecraft.getInstance().getTextureManager().close(evicted.texture);
         return size - 1;
     }
@@ -57,8 +56,8 @@ public class BannerRendererMixin {
         return (Object2ObjectLinkedOpenHashMap<String, BannerRenderer.CachedTexture>) designs;
     }
 
-    @WrapOperation(method = "render(Lnet/minecraft/block/entity/BannerBlockEntity;DDDFI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getTime()J"))
-    private long sarcio$wrapBannerTime(World world, Operation<Long> original) {
-        return original.call(world) % 100L;
+    @ModifyExpressionValue(method = "render(Lnet/minecraft/block/entity/BannerBlockEntity;DDDFI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getTime()J"))
+    private long sarcio$wrapBannerTime(long time) {
+        return time % 100L;
     }
 }

@@ -1,32 +1,31 @@
 package dev.rdh.sarcio.mixin.mem.alloc.entity;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 abstract class EntityLightLevelMixin {
 	@Shadow public World world;
+
 	@Unique private long sarcio$brightnessTick = Long.MIN_VALUE;
 	@Unique private int sarcio$brightnessValue;
 
-	@Inject(method = "getLightLevel", at = @At("HEAD"), cancellable = true)
-	private void sarcio$brightnessCacheHit(float partialTicks, CallbackInfoReturnable<Integer> cir) {
-		if (this.world != null && this.sarcio$brightnessTick == this.world.getTime()) {
-			cir.setReturnValue(this.sarcio$brightnessValue);
+	@WrapMethod(method = "getLightLevel")
+	private int sarcio$cacheBrightness(float partialTicks, Operation<Integer> original) {
+		if (this.world == null) {
+			return original.call(partialTicks);
 		}
-	}
 
-	@Inject(method = "getLightLevel", at = @At("RETURN"))
-	private void sarcio$brightnessCacheStore(float partialTicks, CallbackInfoReturnable<Integer> cir) {
-		if (this.world != null) {
-			this.sarcio$brightnessTick = this.world.getTime();
-			this.sarcio$brightnessValue = cir.getReturnValue();
+		long tick = this.world.getTime();
+		if (this.sarcio$brightnessTick != tick) {
+			this.sarcio$brightnessValue = original.call(partialTicks);
+			this.sarcio$brightnessTick = tick;
 		}
+		return this.sarcio$brightnessValue;
 	}
 }

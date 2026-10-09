@@ -1,18 +1,12 @@
 package dev.rdh.sarcio.mixin.mem.alloc.world;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
 abstract class WorldLightingMixin {
@@ -20,43 +14,24 @@ abstract class WorldLightingMixin {
 	@Unique private final BlockPos.Mutable sarcio$neighborPosition = new BlockPos.Mutable();
 	@Unique private final BlockPos.Mutable sarcio$rawLightPosition = new BlockPos.Mutable();
 
-	@Shadow public abstract boolean hasSkyAccess(BlockPos pos);
-	@Shadow public abstract BlockState getBlockState(BlockPos pos);
-	@Shadow public abstract int getLight(LightType type, BlockPos pos);
+	@Redirect(
+		method = "findLight",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;")
+	)
+	private Direction[] reuseFacings() {
+		return sarcio$facings;
+	}
 
-	@Inject(method = "findLight", at = @At("HEAD"), cancellable = true)
-	private void reuseNeighborPosition(BlockPos pos, LightType lightType, CallbackInfoReturnable<Integer> cir) {
-		if (lightType == LightType.SKY && this.hasSkyAccess(pos)) {
-			cir.setReturnValue(15);
-			return;
-		}
-
-		Block block = this.getBlockState(pos).getBlock();
-		int light = lightType == LightType.SKY ? 0 : block.getLight();
-		int opacity = block.getOpacity();
-		if (opacity >= 15 && block.getLight() > 0) {
-			opacity = 1;
-		}
-		opacity = Math.max(1, opacity);
-
-		if (opacity >= 15 || light >= 14) {
-			cir.setReturnValue(opacity >= 15 ? 0 : light);
-			return;
-		}
-
-		BlockPos.Mutable neighbor = this.sarcio$rawLightPosition;
-		for (Direction facing : sarcio$facings) {
-			neighbor.set(
-				pos.getX() + facing.getOffsetX(),
-				pos.getY() + facing.getOffsetY(),
-				pos.getZ() + facing.getOffsetZ()
-			);
-			light = Math.max(light, this.getLight(lightType, neighbor) - opacity);
-			if (light >= 14) {
-				break;
-			}
-		}
-		cir.setReturnValue(light);
+	@Redirect(
+		method = "findLight",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos;offset(Lnet/minecraft/util/math/Direction;)Lnet/minecraft/util/math/BlockPos;")
+	)
+	private BlockPos reuseNeighborPosition(BlockPos pos, Direction facing) {
+		return this.sarcio$rawLightPosition.set(
+			pos.getX() + facing.getOffsetX(),
+			pos.getY() + facing.getOffsetY(),
+			pos.getZ() + facing.getOffsetZ()
+		);
 	}
 
 	@Redirect(
