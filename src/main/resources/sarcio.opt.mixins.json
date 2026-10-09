@@ -22,6 +22,7 @@
     "resourcepacks.CustomResourcePackMixin",
     "resourcepacks.BuiltInResourcePackMixin",
     "resourcepacks.AssetIndexMixin",
+    "resourcepacks.ResourcePacksMixin",
     "resourcepacks.CustomResourcePackMetadataMixin",
     "resourcepacks.JsonResourceMetadataMixin",
     "textures.TextureManagerMixin",
