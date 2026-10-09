@@ -1,7 +1,7 @@
 package dev.rdh.sarcio.util;
 
-import dev.rdh.sarcio.mixin.allocation_rate.entity.WorldChunkAccessor;
-import dev.rdh.sarcio.mixin.allocation_rate.entity.TypeInstanceMultiMapAccessor;
+import dev.rdh.sarcio.mixin.mem.alloc.entity.WorldChunkAccessor;
+import dev.rdh.sarcio.mixin.mem.alloc.entity.TypeInstanceMultiMapAccessor;
 import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFilter;

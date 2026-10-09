@@ -15,7 +15,14 @@
     "512": "assets/sarcio/textures/gui/512.png",
     "64": "assets/sarcio/textures/gui/64.png"
   },
-  "mixins": ["sarcio.mixins.json"],
+  "mixins": [
+    "sarcio.opt.mixins.json",
+    "sarcio.mem.mixins.json",
+    "sarcio.bugfix.mixins.json",
+    "sarcio.core.mixins.json",
+    "sarcio.netty.mixins.json",
+    "sarcio.tweaks.mixins.json"
+  ],
   "accessWidener": "sarcio.classtweaker",
   "depends": {
     "fabricloader": ">=0.19.4",

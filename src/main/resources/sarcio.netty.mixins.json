@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.rdh.sarcio.mixin.netty",
+  "compatibilityLevel": "JAVA_8",
+  "plugin": "dev.rdh.sarcio.mixin.SarcioMixinPlugin",
+  "mixins": [
+    "LegacyQueryHandlerMixin",
+    "PacketByteBufMixin"
+  ],
+  "client": [
+    "ConnectionListenerMixin",
+    "LegacyPingHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.1"
+  }
+}

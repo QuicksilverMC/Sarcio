@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.rdh.sarcio.mixin.core",
+  "compatibilityLevel": "JAVA_8",
+  "plugin": "dev.rdh.sarcio.mixin.SarcioMixinPlugin",
+  "mixins": [
+    "SyncedDataMixin",
+    "Long2ObjectHashMapMixin",
+    "LazySupplierMixin",
+    "Vec3iMixin"
+  ],
+  "client": [
+    "ChunkGapLightingAccessor",
+    "ClientChunkCacheMixin",
+    "TickTimerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.1"
+  }
+}

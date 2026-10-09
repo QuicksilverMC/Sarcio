@@ -1,0 +1,38 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.rdh.sarcio.mixin.opt",
+  "compatibilityLevel": "JAVA_8",
+  "plugin": "dev.rdh.sarcio.mixin.SarcioMixinPlugin",
+  "mixins": [
+    "chunksaving.ServerWorldMixin",
+    "fastrandom.EntityMixin",
+    "fastrandom.ItemMixin",
+    "fastrandom.WorldMixin",
+    "worldgen.ChunkMapMixin",
+    "worldgen.MinecraftServerMixin",
+    "worldgen.NetherChunkGeneratorMixin",
+    "worldgen.OverworldChunkGeneratorMixin",
+    "worldgen.ProtoChunkMixin",
+    "worldgen.ServerChunkCacheMixin",
+    "worldgen.VeinFeatureMixin",
+    "worldgen.WorldCarverMixin"
+  ],
+  "client": [
+    "resourcepacks.CustomResourcePackMixin",
+    "resourcepacks.BuiltInResourcePackMixin",
+    "resourcepacks.AssetIndexMixin",
+    "resourcepacks.CustomResourcePackMetadataMixin",
+    "resourcepacks.JsonResourceMetadataMixin",
+    "textures.TextureManagerMixin",
+    "textures.TextureUtilMixin",
+    "textures.HttpTextureMixin",
+    "textures.HttpTextureDownloaderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.1"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.rdh.sarcio.mixin.mem",
+  "compatibilityLevel": "JAVA_8",
+  "plugin": "dev.rdh.sarcio.mixin.SarcioMixinPlugin",
+  "mixins": [
+    "alloc.entity.WorldChunkAccessor",
+    "alloc.world.WorldChunkMixin",
+    "alloc.util.BlockPosMixin",
+    "alloc.entity.TypeInstanceMultiMapAccessor",
+    "alloc.entity.LivingEntityMixin",
+    "alloc.entity.EntityMixin",
+    "alloc.entity.TameableEntityMixin",
+    "alloc.util.DirectionMixin",
+    "alloc.util.DirectionPlaneMixin",
+    "alloc.util.NbtStringMixin",
+    "alloc.util.ItemStackMixin",
+    "alloc.util.MathHelperMixin",
+    "alloc.world.GameRulesValueMixin",
+    "alloc.world.WorldCollisionMixin",
+    "alloc.world.WorldLightingMixin",
+    "leak.world.RedstoneTorchBlockMixin",
+    "leak.world.BlockStateImplMixin",
+    "leak.enchantment.DamageWildcardMixin",
+    "leak.enchantment.EnchantmentHelperMixin",
+    "leak.enchantment.ProtectionWildcardMixin",
+    "leak.world.ChunkNibbleStorageMixin",
+    "leak.world.AnvilChunkStorageMixin",
+    "leak.network.MinecraftServerMixin",
+    "leak.world.NodeEvaluatorMixin",
+    "leak.location_canon.IdentifierMixin"
+  ],
+  "client": [
+    "alloc.entity.EntityLightLevelMixin",
+    "leak.world.WorldChunkMixin",
+    "leak.network.NetHandlerPlayMixin",
+    "alloc.entity.EntityDisplayNameMixin",
+    "alloc.render.ParticleManagerMixin",
+    "alloc.render.TextRendererMixin",
+    "alloc.render.AbstractArmorLayerMixin",
+    "alloc.render.LivingEntityRendererMixin",
+    "alloc.render.EntityRendererMixin",
+    "alloc.world.WorldMixin",
+    "leak.MinecraftMixin",
+    "leak.network.PacketThreadUtilRunnableMixin",
+    "leak.location_canon.ModelIdentifierMixin",
+    "leak.location_canon.IdentifierAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.1"
+  }
+}

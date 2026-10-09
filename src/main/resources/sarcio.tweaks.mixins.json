@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.rdh.sarcio.mixin.tweaks",
+  "compatibilityLevel": "JAVA_8",
+  "plugin": "dev.rdh.sarcio.mixin.SarcioMixinPlugin",
+  "client": [
+    "TitleScreenMixin",
+    "MinecraftMixin",
+    "ClientPlayNetworkHandlerMixin",
+    "ServerListEntryWidgetMixin",
+    "ConnectionMixin",
+    "MultiplayerServerListPingerMixin",
+    "ServerAddressAccessor",
+    "ServerAddressMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.1"
+  }
+}

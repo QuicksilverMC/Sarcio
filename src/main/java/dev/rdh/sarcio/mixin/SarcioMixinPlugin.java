@@ -19,13 +19,12 @@ import java.util.Set;
 public class SarcioMixinPlugin implements IMixinConfigPlugin {
 	private static final Logger LOGGER = LogManager.getLogger("Sarcio");
 
-	private final Map<String, String> disabled = new Object2ObjectOpenHashMap<>();
-	private final Set<String> reported = new ObjectOpenHashSet<>();
-	private String mixinPackage;
+	// mixin names in "sarcio:disable" are relative to this, not to the package of the individual config
+	private static final String ROOT_PACKAGE = "dev.rdh.sarcio.mixin";
+	// shared between the per-config plugin instances so the mod list is only read (and complained about) once
+	private static final Map<String, String> DISABLED = new Object2ObjectOpenHashMap<>();
 
-	@Override
-	public void onLoad(String mixinPackage) {
-		this.mixinPackage = mixinPackage;
+	static {
 		for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
 			CustomValue value = mod.getMetadata().getCustomValue("sarcio:disable");
 			if (value == null) continue;
@@ -36,20 +35,22 @@ public class SarcioMixinPlugin implements IMixinConfigPlugin {
 			}
 			for (CustomValue entry : value.getAsArray()) {
 				String name = entry.getType() == CustomValue.CvType.STRING ? entry.getAsString() : String.valueOf(entry);
-				String resource = (mixinPackage + '.' + name).replace('.', '/') + ".class";
+				String resource = (ROOT_PACKAGE + '.' + name).replace('.', '/') + ".class";
 				if (SarcioMixinPlugin.class.getClassLoader().getResource(resource) == null) {
 					LOGGER.warn("Mod {} asked to disable mixin {}, which does not exist", id, name);
 				} else {
-					this.disabled.merge(name, id, (a, b) -> a + ", " + b);
+					DISABLED.merge(name, id, (a, b) -> a + ", " + b);
 				}
 			}
 		}
 	}
 
+	private final Set<String> reported = new ObjectOpenHashSet<>();
+
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		String name = mixinClassName.substring(this.mixinPackage.length() + 1);
-		String by = this.disabled.get(name);
+		String name = mixinClassName.substring(ROOT_PACKAGE.length() + 1);
+		String by = DISABLED.get(name);
 		if (by != null) {
 			if (this.reported.add(name)) LOGGER.info("Not applying mixin {}: disabled by {}", name, by);
 			return false;
