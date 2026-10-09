@@ -11,17 +11,18 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LivingEntityRenderer.class)
 abstract class LivingEntityRendererMixin {
 	@Unique private static final Text sarcio$emptyName = new LiteralText("");
 	@Unique private String sarcio$renderedName;
 
-	@WrapOperation(
+	@Redirect(
 		method = "renderNameTag",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/LivingEntity;getDisplayName()Lnet/minecraft/text/Text;")
 	)
-	private Text prepareRenderedName(LivingEntity entity, Operation<Text> original) {
+	private Text prepareRenderedName(LivingEntity entity) {
 		String name = entity.getName();
 		this.sarcio$renderedName = (entity instanceof PlayerEntity ? Team.getMemberDisplayName(entity.getScoreboardTeam(), name) : name) + "§r";
 		return sarcio$emptyName;

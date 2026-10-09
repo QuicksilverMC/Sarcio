@@ -1,6 +1,5 @@
 package dev.rdh.sarcio.mixin.chunksaving;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -25,7 +24,7 @@ abstract class ServerWorldMixin {
 		method = "getScheduledTicks(Lnet/minecraft/world/gen/structure/StructureBox;Z)Ljava/util/List;",
 		at = @At(value = "INVOKE", target = "Ljava/util/TreeSet;iterator()Ljava/util/Iterator;")
 	)
-	private Iterator<ScheduledTick> sarcio$ticksInBounds(TreeSet<ScheduledTick> ticks, Operation<Iterator<ScheduledTick>> original, @Local(argsOnly = true) StructureBox bounds) {
+	private Iterator<ScheduledTick> sarcio$ticksInBounds(TreeSet<ScheduledTick> ticks, Operation<Iterator<ScheduledTick>> original, StructureBox bounds) {
 		return ticks instanceof ChunkIndexedTickSet ? ((ChunkIndexedTickSet) ticks).iterator(bounds) : original.call(ticks);
 	}
 }

@@ -1,7 +1,7 @@
 package dev.rdh.sarcio.mixin.core;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import dev.rdh.sarcio.util.NoOpReadWriteLock;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -36,10 +36,10 @@ abstract class SyncedDataMixin {
 		this.sarcio$index(id);
 	}
 
-	@WrapMethod(method = "getEntry")
-	private SyncedData.Entry sarcio$getEntry(int id, Operation<SyncedData.Entry> original) {
+	@WrapOperation(method = "getEntry", at = @At(value = "INVOKE", target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;"))
+	private Object sarcio$getIndexedEntry(Map<Integer, SyncedData.Entry> entries, Object key, Operation<Object> original, int id) {
 		SyncedData.Entry entry = id >= 0 && id < this.sarcio$entries.length ? this.sarcio$entries[id] : null;
-		return entry != null ? entry : original.call(id);
+		return entry != null ? entry : original.call(entries, key);
 	}
 
 	@Unique

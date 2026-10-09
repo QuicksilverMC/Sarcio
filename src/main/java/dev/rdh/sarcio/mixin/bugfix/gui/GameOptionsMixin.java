@@ -4,10 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.options.KeyBinding;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -20,8 +19,8 @@ public class GameOptionsMixin {
         }
     }
 
-    @WrapOperation(method = "set(Lnet/minecraft/client/options/GameOptions$Option;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;submitResourceReload()Lcom/google/common/util/concurrent/ListenableFuture;"))
-    private ListenableFuture<?> sarcio$deferResourceRefresh(Minecraft mc, Operation<ListenableFuture<?>> original) {
+    @Redirect(method = "set(Lnet/minecraft/client/options/GameOptions$Option;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;submitResourceReload()Lcom/google/common/util/concurrent/ListenableFuture;"))
+    private ListenableFuture<?> sarcio$deferResourceRefresh(Minecraft mc) {
         return null;
     }
 }

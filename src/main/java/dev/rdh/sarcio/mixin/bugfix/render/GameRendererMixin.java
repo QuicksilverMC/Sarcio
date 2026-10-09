@@ -1,7 +1,5 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import dev.rdh.sarcio.util.CameraRayEnd;
 
 import net.minecraft.client.Minecraft;
@@ -14,9 +12,8 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
@@ -33,11 +30,19 @@ public class GameRendererMixin {
         return new BlockPos(this.minecraft.getCamera().getEyePosition(1.0F));
     }
 
-    @Inject(method = "updateLightMap", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;hasStatusEffect(Lnet/minecraft/entity/living/effect/StatusEffect;)Z"))
-    private void sarcio$clampBeforeNightVision(float partialTicks, CallbackInfo ci, @Local(ordinal = 11) LocalFloatRef red, @Local(ordinal = 12) LocalFloatRef green, @Local(ordinal = 13) LocalFloatRef blue) {
-        red.set(Math.min(red.get(), 1.0F));
-        green.set(Math.min(green.get(), 1.0F));
-        blue.set(Math.min(blue.get(), 1.0F));
+    @ModifyVariable(method = "updateLightMap", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;hasStatusEffect(Lnet/minecraft/entity/living/effect/StatusEffect;)Z"), ordinal = 11)
+    private float sarcio$clampRedBeforeNightVision(float red) {
+        return Math.min(red, 1.0F);
+    }
+
+    @ModifyVariable(method = "updateLightMap", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;hasStatusEffect(Lnet/minecraft/entity/living/effect/StatusEffect;)Z"), ordinal = 12)
+    private float sarcio$clampGreenBeforeNightVision(float green) {
+        return Math.min(green, 1.0F);
+    }
+
+    @ModifyVariable(method = "updateLightMap", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;hasStatusEffect(Lnet/minecraft/entity/living/effect/StatusEffect;)Z"), ordinal = 13)
+    private float sarcio$clampBlueBeforeNightVision(float blue) {
+        return Math.min(blue, 1.0F);
     }
 
     @ModifyArg(method = "transformCamera", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;rayTrace(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/world/HitResult;"), index = 1)

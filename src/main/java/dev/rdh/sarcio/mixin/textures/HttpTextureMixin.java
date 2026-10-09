@@ -1,7 +1,5 @@
 package dev.rdh.sarcio.mixin.textures;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -15,6 +13,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -35,8 +34,8 @@ abstract class HttpTextureMixin {
 		return thread;
 	});
 
-	@WrapOperation(method = "download", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;start()V"))
-	private void useSharedExecutor(Thread download, Operation<Void> original) {
+	@Redirect(method = "download", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;start()V"))
+	private void useSharedExecutor(Thread download) {
 		EXECUTOR.execute(download);
 	}
 
