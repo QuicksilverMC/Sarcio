@@ -25,6 +25,7 @@
     "leak.enchantment.DamageWildcardMixin",
     "leak.enchantment.EnchantmentHelperMixin",
     "leak.enchantment.ProtectionWildcardMixin",
+    "leak.enchantment.ProtectionModifierMixin",
     "leak.world.ChunkNibbleStorageMixin",
     "leak.world.AnvilChunkStorageMixin",
     "leak.network.MinecraftServerMixin",
