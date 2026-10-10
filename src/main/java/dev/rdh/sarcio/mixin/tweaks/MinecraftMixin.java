@@ -18,6 +18,9 @@ public class MinecraftMixin {
     @Shadow
     private TwitchStream twitchStream;
 
+    @Shadow
+    public ClientWorld world;
+
     @Inject(method = "initTwitchStream", at = @At("HEAD"), cancellable = true)
     private void sarcio$skipTwitchInit(CallbackInfo ci) {
         this.twitchStream = new ErrorTwitchStream(null);
@@ -39,6 +42,6 @@ public class MinecraftMixin {
 
     @WrapWithCondition(method = "setWorld(Lnet/minecraft/client/world/ClientWorld;Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/ProgressRenderer;progressStage(Ljava/lang/String;)V"))
     private boolean sarcio$skipWorldSwapProgress(ProgressRenderer instance, String message, ClientWorld world) {
-        return world == null;
+        return world == null && this.world != null;
     }
 }
