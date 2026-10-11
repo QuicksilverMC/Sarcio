@@ -49,6 +49,10 @@ public class SarcioMixinPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+		if (targetClassName.startsWith("dev.rdh.argentum.") && !FabricLoader.getInstance().isModLoaded("argentum")) {
+			return false;
+		}
+
 		String name = mixinClassName.substring(ROOT_PACKAGE.length() + 1);
 		String by = DISABLED.get(name);
 		if (by != null) {

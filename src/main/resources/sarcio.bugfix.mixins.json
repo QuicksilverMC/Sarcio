@@ -79,7 +79,8 @@
     "render.tileentity.BannerRendererMixin",
     "render.tileentity.BlockEntityRenderDispatcherMixin",
     "render.tileentity.SkullRendererMixin",
-    "render.BufferBuilderMixin"
+    "render.BufferBuilderMixin",
+    "compat.ArgentumTextBatcherMixin"
   ],
   "injectors": {
     "defaultRequire": 1
