@@ -10,7 +10,9 @@
     "entity.EntityMixin",
     "entity.ExperienceOrbEntityMixin",
     "ScoreboardMixin",
-    "world.WorldMixin"
+    "world.WorldMixin",
+    "world.VillageMixin",
+    "world.SavedVillageDataMixin"
   ],
   "client": [
     "entity.EntityLightLevelMixin",
