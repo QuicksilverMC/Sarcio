@@ -23,7 +23,7 @@ public class MinecraftMixin {
 
     @Inject(method = "initTwitchStream", at = @At("HEAD"), cancellable = true)
     private void sarcio$skipTwitchInit(CallbackInfo ci) {
-        this.twitchStream = new ErrorTwitchStream(null);
+        this.twitchStream = new ErrorTwitchStream(new UnsupportedOperationException("Twitch streaming is disabled by Sarcio"));
         ci.cancel();
     }
 
