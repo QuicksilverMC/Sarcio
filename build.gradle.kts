@@ -2,10 +2,14 @@ plugins {
     java
     id("net.fabricmc.fabric-loom-remap") version("1.17.+")
     id("ploceus") version("1.17.+")
+    id("me.modmuss50.mod-publish-plugin") version "2.2.1"
 }
 
 group = "dev.rdh"
+val releaseBuild = providers.gradleProperty("release").isPresent ||
+    gradle.startParameter.taskNames.any { it.substringAfterLast(':') == "publishMods" }
 version = providers.environmentVariable("GITHUB_SHA")
+    .filter { !releaseBuild }
     .flatMap { sha -> providers.gradleProperty("mod_version").map { "$it+${sha.take(7)}" } }
     .orElse(providers.gradleProperty("mod_version"))
     .get()
@@ -82,5 +86,26 @@ tasks.processResources {
 
     filesMatching("fabric.mod.json") {
         expand("version" to v)
+    }
+}
+
+publishMods {
+    file.set(tasks.remapJar.flatMap { it.archiveFile })
+    displayName.set("Sarcio ${project.version}")
+    changelog.set(providers.gradleProperty("changelog"))
+    type.set(STABLE)
+    modLoaders.add("ornithe")
+    dryRun.set(providers.gradleProperty("publishDryRun").map(String::toBoolean).orElse(false))
+
+    modrinth {
+        accessToken.set(providers.environmentVariable("MODRINTH_PAT"))
+        projectId.set("VIiRf1ei")
+        minecraftVersions.add(Versions.minecraft)
+    }
+    github {
+        accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
+        repository.set("QuicksilverMC/Sarcio")
+        commitish.set(providers.environmentVariable("GITHUB_SHA").orElse("main"))
+        tagName.set("v${project.version}")
     }
 }
