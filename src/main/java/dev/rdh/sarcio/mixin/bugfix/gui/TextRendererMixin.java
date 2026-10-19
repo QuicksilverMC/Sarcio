@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import org.objectweb.asm.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,6 +33,11 @@ public abstract class TextRendererMixin {
         if (mc.gui != null && mc.textRenderer == (Object) this) {
             mc.gui.getChat().reset();
         }
+    }
+
+    @ModifyExpressionValue(method = "drawLayer(Ljava/lang/String;Z)V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/TextRenderer;unicode:Z", ordinal = 0, opcode = Opcodes.GETFIELD))
+    private boolean sarcio$useUnicodeGlyphOffset(boolean unicode, @Local(ordinal = 1) int glyphIndex) {
+        return unicode || glyphIndex == -1;
     }
 
     @Definition(id = "glyphSizes", field = "Lnet/minecraft/client/render/TextRenderer;glyphSizes:[B")
