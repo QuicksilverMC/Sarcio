@@ -29,6 +29,7 @@
     "minecraft": "1.8.9"
   },
   "breaks": {
+    "lomka": "*",
     "netfix": "*",
     "zirconium": "*"
   }
