@@ -9,6 +9,7 @@
   "license": "LGPL-3.0-or-later",
   "environment": "*",
   "entrypoints": {
+    "preLaunch": ["dev.rdh.sarcio.SarcioPreLaunch"],
     "main": ["dev.rdh.sarcio.SarcioMod"]
   },
   "icon": {
