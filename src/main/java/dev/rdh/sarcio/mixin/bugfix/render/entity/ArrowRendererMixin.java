@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render.entity;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.render.entity.ArrowRenderer;
 import net.minecraft.client.render.platform.GlStateManager;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.render.projectile_alpha")
 @Mixin(ArrowRenderer.class)
 public class ArrowRendererMixin {
     @Inject(method = "render(Lnet/minecraft/entity/projectile/ArrowEntity;DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/platform/GlStateManager;translatef(FFF)V"))

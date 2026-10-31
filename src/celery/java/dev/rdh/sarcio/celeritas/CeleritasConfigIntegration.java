@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.celeritas;
 
+import dev.rdh.sarcio.Features;
 import dev.rdh.sarcio.SarcioMod;
 import dev.rdh.sarcio.SarcioConfig;
 import java.util.List;
@@ -45,12 +46,14 @@ public final class CeleritasConfigIntegration implements OptionStorage<SarcioCon
 						.build())
 				.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
 						.setId(id("disable_realms"))
+						.setEnabled(Features.isEnabled("tweaks.disable_realms"))
 						.setControl(TickBoxControl::new)
 						.setBinding((config, value) -> config.disableRealms = value,
 								config -> config.disableRealms)
 						.build())
 				.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
 						.setId(id("persistent_keybindings"))
+						.setEnabled(Features.isEnabled("bugfix.persistent_keybinds"))
 						.setControl(TickBoxControl::new)
 						.setBinding((config, value) -> config.persistentKeybindings = value,
 								config -> config.persistentKeybindings)

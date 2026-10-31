@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render.entity;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -19,11 +20,13 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<ClientPla
         super(null, null, 0);
     }
 
+    @Feature("bugfix.render.riding_first_person_arm")
     @Inject(method = {"renderRightArm", "renderLeftArm"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/model/entity/PlayerModel;sneaking:Z", opcode = Opcodes.PUTFIELD))
     private void sarcio$disableRidingArm(ClientPlayerEntity clientPlayer, CallbackInfo ci) {
         super.getModel().riding = false;
     }
 
+    @Feature("bugfix.render.spectator_hat")
     @Definition(id = "hat", field = "Lnet/minecraft/client/render/model/entity/PlayerModel;hat:Lnet/minecraft/client/render/model/ModelPart;")
     @Definition(id = "visible", field = "Lnet/minecraft/client/render/model/ModelPart;visible:Z")
     @Expression("?.hat.visible = @(true)")

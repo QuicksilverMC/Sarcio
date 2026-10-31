@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
+import dev.rdh.sarcio.Feature;
 import java.nio.IntBuffer;
 import net.minecraft.client.render.vertex.BufferBuilder;
 import net.minecraft.client.render.vertex.VertexFormat;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.render.buffer_growth")
 @Mixin(BufferBuilder.class)
 public abstract class BufferBuilderMixin {
     @Shadow

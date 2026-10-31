@@ -4,12 +4,14 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.EnchantmentReferenceCleaner;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.living.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 
+@Feature("mem.leak.enchantment_iterators")
 @Mixin(EnchantmentHelper.class)
 abstract class EnchantmentHelperMixin {
 	@WrapMethod(method = "applyProtectionWildcard")

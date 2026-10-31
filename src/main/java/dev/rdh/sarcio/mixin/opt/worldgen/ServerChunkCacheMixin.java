@@ -2,6 +2,7 @@ package dev.rdh.sarcio.mixin.opt.worldgen;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.TerrainPrefetcher;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.server.world.chunk.ServerChunkCache;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("opt.worldgen.terrain_prefetch")
 @Mixin(ServerChunkCache.class)
 abstract class ServerChunkCacheMixin implements TerrainPrefetcher.Holder {
 	@Unique private TerrainPrefetcher sarcio$terrainPrefetcher;

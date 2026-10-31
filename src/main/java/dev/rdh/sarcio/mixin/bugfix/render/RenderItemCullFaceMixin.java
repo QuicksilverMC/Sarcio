@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.render.entity.ItemRenderer;
 import net.minecraft.client.render.model.block.BakedModel;
 import net.minecraft.client.render.platform.GlStateManager;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.render.item_cull_face")
 @Mixin(ItemRenderer.class)
 public abstract class RenderItemCullFaceMixin {
     @Shadow

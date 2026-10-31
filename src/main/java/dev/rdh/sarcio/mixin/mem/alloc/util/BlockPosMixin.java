@@ -1,11 +1,13 @@
 package dev.rdh.sarcio.mixin.mem.alloc.util;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
+@Feature("mem.alloc.block_pos_offsets")
 @Mixin(BlockPos.class)
 abstract class BlockPosMixin extends Vec3i {
 	private BlockPosMixin() {

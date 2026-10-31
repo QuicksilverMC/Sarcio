@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +18,7 @@ import paulscode.sound.SoundSystem;
 
 @Mixin(SoundEngine.class)
 public class SoundEngineMixin {
+    @Feature("bugfix.sound.silence_unknown")
     @WrapWithCondition(
         method = "play",
         slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=Unable to play unknown soundEvent: {}")),
@@ -26,19 +28,23 @@ public class SoundEngineMixin {
         return false;
     }
 
+    @Feature("bugfix.sound.pause_resume")
     @Unique
     private final Set<String> sarcio$pausedChannels = new HashSet<>();
 
+    @Feature("bugfix.sound.pause_resume")
     @WrapWithCondition(method = "pause", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/system/SoundEngine$System;pause(Ljava/lang/String;)V"))
     private boolean sarcio$pauseOnlyPlaying(@Coerce SoundSystem instance, String sourcename) {
         return instance.playing(sourcename) && this.sarcio$pausedChannels.add(sourcename);
     }
 
+    @Feature("bugfix.sound.pause_resume")
     @WrapWithCondition(method = "resume", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/system/SoundEngine$System;play(Ljava/lang/String;)V"))
     private boolean sarcio$resumeOnlyPaused(@Coerce SoundSystem instance, String sourcename) {
         return this.sarcio$pausedChannels.contains(sourcename);
     }
 
+    @Feature("bugfix.sound.pause_resume")
     @Inject(method = "resume", at = @At("TAIL"))
     private void sarcio$clearPausedChannels(CallbackInfo ci) {
         this.sarcio$pausedChannels.clear();

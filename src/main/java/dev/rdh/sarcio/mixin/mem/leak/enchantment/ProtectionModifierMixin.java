@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.leak.enchantment;
 
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.EnchantmentReferenceCleaner;
 import net.minecraft.entity.damage.DamageSource;
 import org.spongepowered.asm.mixin.Mixin;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("mem.leak.enchantment_iterators")
 @Mixin(targets = "net.minecraft.enchantment.EnchantmentHelper$ProtectionModifier")
 abstract class ProtectionModifierMixin implements EnchantmentReferenceCleaner.Clearable {
 	@Shadow public DamageSource source;

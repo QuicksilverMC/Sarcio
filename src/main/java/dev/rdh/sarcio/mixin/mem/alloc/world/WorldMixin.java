@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.world;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("mem.alloc.active_chunk_reuse")
 @Mixin(World.class)
 abstract class WorldMixin {
 	@Shadow @Final public boolean isClient;
@@ -102,13 +104,5 @@ abstract class WorldMixin {
 	)
 	private Object useLocalPlayer(List<PlayerEntity> players, int index, Operation<Object> original) {
 		return this.isClient ? Minecraft.getInstance().player : original.call(players, index);
-	}
-
-	@WrapOperation(
-		method = "tickEntity(Lnet/minecraft/entity/Entity;Z)V",
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isAreaLoaded(IIIIIIZ)Z")
-	)
-	private boolean skipClientAreaCheck(World world, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, boolean allowEmpty, Operation<Boolean> original) {
-		return this.isClient || original.call(world, minX, minY, minZ, maxX, maxY, maxZ, allowEmpty);
 	}
 }

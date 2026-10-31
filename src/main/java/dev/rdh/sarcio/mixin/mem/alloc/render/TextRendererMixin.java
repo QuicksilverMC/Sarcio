@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.render;
 
+import dev.rdh.sarcio.Feature;
 import java.util.Locale;
 import net.minecraft.client.render.TextRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -7,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+@Feature("mem.alloc.text_formatting_lowercase")
 @Mixin(TextRenderer.class)
 abstract class TextRendererMixin {
 	@Redirect(

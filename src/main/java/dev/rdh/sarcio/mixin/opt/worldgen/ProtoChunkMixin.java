@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.opt.worldgen;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.world.gen.chunk.ProtoChunk;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("opt.worldgen.proto_chunk_states")
 @Mixin(ProtoChunk.class)
 abstract class ProtoChunkMixin {
 	@Shadow @Final private BlockState defaultBlockState;

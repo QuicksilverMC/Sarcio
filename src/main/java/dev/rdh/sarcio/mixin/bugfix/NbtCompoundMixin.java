@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import org.spongepowered.asm.mixin.Mixin;
@@ -7,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.nbt_null_fail_fast")
 @Mixin(NbtCompound.class)
 public class NbtCompoundMixin {
     @Inject(method = "put", at = @At("HEAD"))

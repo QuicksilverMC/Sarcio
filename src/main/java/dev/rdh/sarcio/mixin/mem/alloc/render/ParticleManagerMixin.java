@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.render;
 
+import dev.rdh.sarcio.Feature;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+@Feature("mem.alloc.particle_remove_set")
 @Mixin(ParticleManager.class)
 abstract class ParticleManagerMixin {
 	@SuppressWarnings("SuspiciousMethodCalls")

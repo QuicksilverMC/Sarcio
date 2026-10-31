@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.leak.world;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import java.io.DataInputStream;
@@ -9,6 +10,7 @@ import net.minecraft.world.chunk.storage.AnvilChunkStorage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("mem.leak.chunk_stream")
 @Mixin(AnvilChunkStorage.class)
 abstract class AnvilChunkStorageMixin {
 	@WrapOperation(method = "loadChunk(Lnet/minecraft/world/World;II)Lnet/minecraft/world/chunk/WorldChunk;", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NbtIo;read(Ljava/io/DataInputStream;)Lnet/minecraft/nbt/NbtCompound;"))

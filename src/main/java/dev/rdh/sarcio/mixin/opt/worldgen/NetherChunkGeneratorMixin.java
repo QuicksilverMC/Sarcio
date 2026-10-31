@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.opt.worldgen;
 
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.TerrainPrefetcher;
 import java.util.Random;
 import net.minecraft.world.World;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
+@Feature("opt.worldgen.terrain_prefetch")
 @Mixin(NetherChunkGenerator.class)
 abstract class NetherChunkGeneratorMixin implements TerrainPrefetcher.Prefetchable {
 	@Shadow @Final private World world;

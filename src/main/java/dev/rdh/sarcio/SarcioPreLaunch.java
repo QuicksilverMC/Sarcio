@@ -11,7 +11,9 @@ public class SarcioPreLaunch implements PreLaunchEntrypoint {
 
 	@Override
 	public void onPreLaunch() {
-		useAsciiDigits();
+		if (Features.isEnabled("bugfix.ascii_digits")) {
+			useAsciiDigits();
+		}
 	}
 
 	// java 9+ formats numbers with non-ASCII digits in some locales, breaking paths

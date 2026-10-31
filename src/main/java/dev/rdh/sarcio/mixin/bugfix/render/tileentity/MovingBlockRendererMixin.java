@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render.tileentity;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -10,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("bugfix.render.moving_block_precision")
 @Mixin(MovingBlockRenderer.class)
 public class MovingBlockRendererMixin {
     @WrapOperation(method = "render(Lnet/minecraft/block/entity/MovingBlockEntity;DDDFI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/vertex/BufferBuilder;offset(DDD)V", ordinal = 0))

@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render.entity;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.living.LivingEntity;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
+@Feature("bugfix.render.riding_head_rotation")
 @Mixin(LivingEntityRenderer.class)
 public class LivingEntityRendererMixin<T extends LivingEntity> {
     @ModifyVariable(method = "render(Lnet/minecraft/entity/living/LivingEntity;DDDFF)V", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/living/LivingEntity;lastPitch:F", ordinal = 0, opcode = Opcodes.GETFIELD), ordinal = 4)

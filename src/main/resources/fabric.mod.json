@@ -20,7 +20,6 @@
     "sarcio.opt.mixins.json",
     "sarcio.mem.mixins.json",
     "sarcio.bugfix.mixins.json",
-    "sarcio.core.mixins.json",
     "sarcio.netty.mixins.json",
     "sarcio.tweaks.mixins.json"
   ],

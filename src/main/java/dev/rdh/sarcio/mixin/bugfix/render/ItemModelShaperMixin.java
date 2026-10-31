@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.render.item.ItemModelShaper;
 import net.minecraft.client.render.model.block.BakedModel;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Feature("bugfix.render.missing_item_model")
 @Mixin(ItemModelShaper.class)
 public class ItemModelShaperMixin {
     @Shadow

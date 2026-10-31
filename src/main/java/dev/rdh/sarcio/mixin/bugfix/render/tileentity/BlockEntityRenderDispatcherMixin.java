@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render.tileentity;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -19,6 +20,7 @@ public abstract class BlockEntityRenderDispatcherMixin {
     @Shadow
     public abstract <T extends BlockEntity> BlockEntityRenderer<T> getRenderer(Class<? extends BlockEntity> teClass);
 
+    @Feature("bugfix.render.removed_block_entities")
     @Definition(id = "te", local = @Local(type = BlockEntity.class, argsOnly = true))
     @Expression("te == null")
     @ModifyExpressionValue(method = "getRenderer(Lnet/minecraft/block/entity/BlockEntity;)Lnet/minecraft/client/render/block/entity/BlockEntityRenderer;", at = @At("MIXINEXTRAS:EXPRESSION"))
@@ -26,6 +28,7 @@ public abstract class BlockEntityRenderDispatcherMixin {
         return original || te.isRemoved();
     }
 
+    @Feature("bugfix.render.block_entity_lighting")
     @Inject(method = "render(Lnet/minecraft/block/entity/BlockEntity;FI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getLightColor(Lnet/minecraft/util/math/BlockPos;I)I"))
     private void sarcio$enableLighting(CallbackInfo ci) {
         Lighting.turnOn();

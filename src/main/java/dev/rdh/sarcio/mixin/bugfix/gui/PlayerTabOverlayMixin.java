@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.overlay.PlayerTabOverlay;
 import net.minecraft.entity.living.player.PlayerEntity;
@@ -7,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
+@Feature("bugfix.gui.tab_list_null_player")
 @Mixin(PlayerTabOverlay.class)
 public class PlayerTabOverlayMixin {
     @ModifyVariable(method = "render", at = @At("STORE"))

@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.leak.world;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.entity.ai.pathing.NodeEvaluator;
 import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("mem.leak.pathfinding_world")
 @Mixin(NodeEvaluator.class)
 abstract class NodeEvaluatorMixin {
 	@Shadow protected WorldView world;

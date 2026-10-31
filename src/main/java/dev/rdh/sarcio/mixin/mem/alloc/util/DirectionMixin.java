@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.util;
 
+import dev.rdh.sarcio.Feature;
 import java.util.Random;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+@Feature("mem.alloc.direction_lookups")
 @Mixin(Direction.class)
 abstract class DirectionMixin {
 	@Shadow @Final private static Direction[] ALL;

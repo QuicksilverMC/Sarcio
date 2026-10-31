@@ -1,11 +1,13 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.ParticleManager;
 import net.minecraft.client.render.Camera;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+@Feature("bugfix.render.lit_particle_rotation")
 @Mixin(ParticleManager.class)
 public class ParticleManagerMixin {
     @ModifyArg(method = "renderLit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/particle/Particle;render(Lnet/minecraft/client/render/vertex/BufferBuilder;Lnet/minecraft/entity/Entity;FFFFFF)V"), index = 3)

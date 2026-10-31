@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.SarcioMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
@@ -25,6 +26,7 @@ public class MinecraftMixin {
     @Shadow
     private RenderTarget renderTarget;
 
+    @Feature("bugfix.persistent_keybinds")
     @Inject(method = "openScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;lockMouse()V"))
     private void sarcio$reapplyKeybinds(Screen guiScreenIn, CallbackInfo ci) {
         if (!SarcioMod.CONFIG.persistentKeybindings) return;
@@ -37,6 +39,7 @@ public class MinecraftMixin {
         }
     }
 
+    @Feature("bugfix.mouse_bound_keys")
     @Inject(method = "tick", at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;inventoryKey:Lnet/minecraft/client/options/KeyBinding;", ordinal = 0, opcode = Opcodes.GETFIELD))
     private void sarcio$handleMouseBoundKeys(CallbackInfo ci) {
         Minecraft mc = (Minecraft) (Object) this;
@@ -61,11 +64,13 @@ public class MinecraftMixin {
         }
     }
 
+    @Feature("bugfix.startup_progress_screen")
     @ModifyArg(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;openScreen(Lnet/minecraft/client/gui/screen/Screen;)V"))
     private Screen sarcio$showWorkingScreen(Screen guiScreenIn) {
         return new ProgressScreen();
     }
 
+    @Feature("bugfix.save_fullscreen")
     @Inject(method = "toggleFullscreen", at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;fullscreen:Z", opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER))
     private void sarcio$saveFullscreen(CallbackInfo ci) {
         this.options.save();

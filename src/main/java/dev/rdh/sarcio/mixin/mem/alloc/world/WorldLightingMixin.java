@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.world;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+@Feature("mem.alloc.reuse_light_positions")
 @Mixin(World.class)
 abstract class WorldLightingMixin {
 	@Unique private static final Direction[] sarcio$facings = Direction.values();

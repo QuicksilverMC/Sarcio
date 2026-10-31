@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.world;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.util.math.BlockPos;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("bugfix.world.village_chunk_loading")
 @Mixin(Village.class)
 public class VillageMixin {
     @Shadow private World world;

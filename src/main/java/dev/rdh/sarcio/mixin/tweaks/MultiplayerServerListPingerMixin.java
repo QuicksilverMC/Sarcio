@@ -2,6 +2,7 @@ package dev.rdh.sarcio.mixin.tweaks;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.AsyncServerPinger;
 import java.net.InetAddress;
 import net.minecraft.client.network.MultiplayerServerListPinger;
@@ -10,6 +11,7 @@ import net.minecraft.network.Connection;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("tweaks.async_server_ping")
 @Mixin(MultiplayerServerListPinger.class)
 public class MultiplayerServerListPingerMixin {
     @WrapOperation(method = "add", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ServerAddress;parse(Ljava/lang/String;)Lnet/minecraft/client/network/ServerAddress;"))

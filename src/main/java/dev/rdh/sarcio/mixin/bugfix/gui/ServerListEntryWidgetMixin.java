@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.widget.ServerListEntryWidget;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("bugfix.gui.server_icon_crash")
 @Mixin(ServerListEntryWidget.class)
 public class ServerListEntryWidgetMixin {
     @Shadow

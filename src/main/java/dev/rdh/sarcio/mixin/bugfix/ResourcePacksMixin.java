@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
+import dev.rdh.sarcio.Feature;
 import java.io.File;
 import net.minecraft.client.resource.pack.ResourcePacks;
 import org.spongepowered.asm.mixin.Final;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.create_server_pack_dir")
 @Mixin(ResourcePacks.class)
 public class ResourcePacksMixin {
     @Shadow

@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.util;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("mem.alloc.item_name_cache")
 @Mixin(ItemStack.class)
 abstract class ItemStackMixin {
 	@Unique private String sarcio$displayName;

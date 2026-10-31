@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.render;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -15,9 +16,12 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LivingEntityRenderer.class)
 abstract class LivingEntityRendererMixin {
+	@Feature("mem.alloc.name_tag_text")
 	@Unique private static final Text sarcio$emptyName = new LiteralText("");
+	@Feature("mem.alloc.name_tag_text")
 	@Unique private String sarcio$renderedName;
 
+	@Feature("mem.alloc.name_tag_text")
 	@Redirect(
 		method = "renderNameTag",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/LivingEntity;getDisplayName()Lnet/minecraft/text/Text;")
@@ -28,6 +32,7 @@ abstract class LivingEntityRendererMixin {
 		return sarcio$emptyName;
 	}
 
+	@Feature("mem.alloc.name_tag_text")
 	@WrapOperation(
 		method = "renderNameTag",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/text/Text;getFormattedString()Ljava/lang/String;")
@@ -36,6 +41,7 @@ abstract class LivingEntityRendererMixin {
 		return name == sarcio$emptyName ? this.sarcio$renderedName : original.call(name);
 	}
 
+	@Feature("mem.alloc.skip_default_name")
 	@WrapOperation(
 		method = "applyRotation",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/LivingEntity;getName()Ljava/lang/String;")

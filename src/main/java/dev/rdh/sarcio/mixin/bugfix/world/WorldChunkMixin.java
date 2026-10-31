@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.world;
 
+import dev.rdh.sarcio.Feature;
 import java.util.Arrays;
 import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Final;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.world.height_map_minimum")
 @Mixin(WorldChunk.class)
 public class WorldChunkMixin {
     @Shadow

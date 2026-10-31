@@ -2,6 +2,7 @@ package dev.rdh.sarcio.mixin.opt.worldgen;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.TerrainPrefetcher;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -11,6 +12,7 @@ import net.minecraft.world.gen.carver.RavineWorldCarver;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("opt.worldgen.terrain_prefetch")
 @Mixin({CaveWorldCarver.class, RavineWorldCarver.class})
 abstract class WorldCarverMixin {
 	@WrapOperation(method = {"carveTunnel", "carveRavine"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBiome(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/world/biome/Biome;"))

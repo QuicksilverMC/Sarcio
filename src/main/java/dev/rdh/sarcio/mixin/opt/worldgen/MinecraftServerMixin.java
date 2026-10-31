@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.opt.worldgen;
 
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.TerrainPrefetcher;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("opt.worldgen.terrain_prefetch")
 @Mixin(MinecraftServer.class)
 abstract class MinecraftServerMixin {
 	@Shadow public ServerWorld[] worlds;

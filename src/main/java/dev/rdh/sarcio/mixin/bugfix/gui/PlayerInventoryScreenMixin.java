@@ -5,10 +5,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.RomanUtil;
 import net.minecraft.client.gui.screen.game.inventory.PlayerInventoryScreen;
 import net.minecraft.entity.living.effect.StatusEffectInstance;
 
+@Feature("bugfix.gui.high_potion_levels")
 @Mixin(PlayerInventoryScreen.class)
 public class PlayerInventoryScreenMixin {
     @ModifyArg(method = "drawStatusEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/TextRenderer;drawWithShadow(Ljava/lang/String;FFI)I", ordinal = 0), index = 0)

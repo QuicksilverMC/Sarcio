@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.render;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.render.Culler;
 import net.minecraft.client.render.FrustumCuller;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Feature("mem.alloc.entity_cull_box")
 @Mixin(EntityRenderer.class)
 abstract class EntityRendererMixin {
 	@Inject(method = "shouldRender", at = @At(value = "NEW", target = "(DDDDDD)Lnet/minecraft/util/math/Box;"), cancellable = true)

@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.network;
 
+import dev.rdh.sarcio.Feature;
 import java.util.List;
 import net.minecraft.client.options.ServerList;
 import net.minecraft.client.options.ServerListEntry;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Feature("bugfix.network.server_list_bounds")
 @Mixin(ServerList.class)
 public class ServerListMixin {
     @Shadow

@@ -1,11 +1,13 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.util.Utils;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("bugfix.silence_task_errors")
 @Mixin(Utils.class)
 public class UtilsMixin {
     @WrapWithCondition(method = "run", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;fatal(Ljava/lang/String;Ljava/lang/Throwable;)V", remap = false))

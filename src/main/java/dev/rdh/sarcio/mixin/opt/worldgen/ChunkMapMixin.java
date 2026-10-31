@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.opt.worldgen;
 
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.TerrainPrefetcher;
 import net.minecraft.server.ChunkMap;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("opt.worldgen.terrain_prefetch")
 @Mixin(ChunkMap.class)
 abstract class ChunkMapMixin {
 	@Shadow @Final private ServerWorld world;

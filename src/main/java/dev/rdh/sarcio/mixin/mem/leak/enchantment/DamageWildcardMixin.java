@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.leak.enchantment;
 
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.EnchantmentReferenceCleaner;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.living.LivingEntity;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("mem.leak.enchantment_iterators")
 @Mixin(targets = "net.minecraft.enchantment.EnchantmentHelper$DamageWildcard")
 abstract class DamageWildcardMixin implements EnchantmentReferenceCleaner.Clearable {
 	@Shadow public LivingEntity attacker;

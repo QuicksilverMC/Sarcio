@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.tweaks;
 
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.AsyncServerPinger;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+@Feature("tweaks.async_server_ping")
 @Mixin(ServerListEntryWidget.class)
 public class ServerListEntryWidgetMixin {
     @Shadow

@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.util;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.util.math.Direction;
@@ -7,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("mem.alloc.direction_plane_arrays")
 @Mixin(Direction.Plane.class)
 abstract class DirectionPlaneMixin {
 	@Unique private static volatile Direction[] sarcio$horizontal;

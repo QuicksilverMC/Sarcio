@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.network;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.EntityEventS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntityHeadAnglesS2CPacket;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Feature("bugfix.network.entity_packets_without_world")
 @Mixin({EntityMoveS2CPacket.class, EntityHeadAnglesS2CPacket.class, EntityEventS2CPacket.class})
 public class EntityPacketsMixin {
     @Inject(method = "getEntity", at = @At("HEAD"), cancellable = true)

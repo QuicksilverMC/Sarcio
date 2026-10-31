@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.network;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
 import net.minecraft.client.gui.GameGui;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayNetworkHandler.class)
 public class ClientPlayNetworkHandlerMixin {
+    @Feature("bugfix.network.hide_sign_debug")
     @WrapWithCondition(
         method = "handleSignBlockEntityUpdate",
         slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=Unable to locate sign at ")),
@@ -23,6 +25,7 @@ public class ClientPlayNetworkHandlerMixin {
         return false;
     }
 
+    @Feature("bugfix.network.clear_titles_on_login")
     @Inject(method = "handleLogin", at = @At("TAIL"))
     private void sarcio$clearTitles(CallbackInfo ci) {
         GameGui ingameGUI = Minecraft.getInstance().gui;

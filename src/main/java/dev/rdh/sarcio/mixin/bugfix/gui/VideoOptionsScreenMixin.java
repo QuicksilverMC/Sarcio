@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.menu.options.VideoOptionsScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.gui.deferred_mipmap_reload")
 @Mixin(VideoOptionsScreen.class)
 public abstract class VideoOptionsScreenMixin extends Screen {
     @Unique

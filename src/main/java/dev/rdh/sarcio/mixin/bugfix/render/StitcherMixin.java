@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.render.texture.Stitcher;
 import org.objectweb.asm.Opcodes;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("bugfix.render.stitcher_expansion")
 @Mixin(Stitcher.class)
 public class StitcherMixin {
     @Shadow private int width;

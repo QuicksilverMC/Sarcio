@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.options.KeyBinding;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GameOptions.class)
 public class GameOptionsMixin {
+    @Feature("bugfix.gui.ignore_unicode_keys")
     @Inject(method = "isPressed", at = @At("HEAD"), cancellable = true)
     private static void sarcio$ignoreUnicodeKeys(KeyBinding key, CallbackInfoReturnable<Boolean> cir) {
         if (key.getKeyCode() >= 256) {
@@ -20,6 +22,7 @@ public class GameOptionsMixin {
         }
     }
 
+    @Feature("bugfix.gui.deferred_mipmap_reload")
     @WrapOperation(method = "set(Lnet/minecraft/client/options/GameOptions$Option;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;submitResourceReload()Lcom/google/common/util/concurrent/ListenableFuture;"))
     private ListenableFuture<?> sarcio$deferResourceRefresh(Minecraft mc, Operation<ListenableFuture<?>> original) {
         return null;

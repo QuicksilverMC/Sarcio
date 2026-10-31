@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.opt.worldgen;
 
+import dev.rdh.sarcio.Feature;
 import java.util.Arrays;
 import java.util.Random;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Feature("opt.worldgen.vein_visited_set")
 @Mixin(VeinFeature.class)
 abstract class VeinFeatureMixin {
 	@Unique private static final BlockPos sarcio$outOfWorld = new BlockPos(0, -1, 0);

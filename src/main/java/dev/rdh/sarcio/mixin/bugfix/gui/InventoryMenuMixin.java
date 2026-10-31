@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
 import net.minecraft.client.sound.instance.SimpleSoundInstance;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.gui.armor_break_sound")
 @Mixin(InventoryMenu.class)
 public class InventoryMenuMixin {
     @Inject(method = "setItem", at = @At("HEAD"))

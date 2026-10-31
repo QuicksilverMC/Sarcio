@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix;
 
+import dev.rdh.sarcio.Feature;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,6 +15,7 @@ import net.minecraft.scoreboard.team.Team;
 public abstract class ScoreboardMixin {
 	@Shadow public abstract Team getTeam(String name);
 
+	@Feature("bugfix.scoreboard.null_checks")
 	@Inject(method = "removeTeam", at = @At("HEAD"), cancellable = true)
 	private void sarcio$dontRemoveNull(Team team, CallbackInfo ci) {
 		if (team == null) {
@@ -21,6 +23,7 @@ public abstract class ScoreboardMixin {
 		}
 	}
 
+	@Feature("bugfix.scoreboard.null_checks")
 	@Inject(method = "removeObjective", at = @At("HEAD"), cancellable = true)
 	private void sarcio$dontRemoveNullObjective(ScoreboardObjective objective, CallbackInfo ci) {
 		if (objective == null) {
@@ -28,16 +31,19 @@ public abstract class ScoreboardMixin {
 		}
 	}
 
+	@Feature("bugfix.scoreboard.duplicate_team")
 	@Inject(method = "addTeam", at = @At(value = "CONSTANT", args = "stringValue=A team with the name '"), cancellable = true)
 	private void sarcio$reuseExistingTeam(String name, CallbackInfoReturnable<Team> cir) {
 		cir.setReturnValue(this.getTeam(name));
 	}
 
+	@Feature("bugfix.scoreboard.stale_team_member")
 	@Inject(method = "removeMemberFromTeam(Ljava/lang/String;Lnet/minecraft/scoreboard/team/Team;)V", at = @At(value = "CONSTANT", args = "stringValue=Player is either on another team or not on any team. Cannot remove from team '"), cancellable = true)
 	private void sarcio$dontThrowOnStaleTeam(String player, Team team, CallbackInfo ci) {
 		ci.cancel();
 	}
 
+	@Feature("bugfix.scoreboard.null_checks")
 	@Inject(method = "removeMemberFromTeam(Ljava/lang/String;Lnet/minecraft/scoreboard/team/Team;)V", at = @At("HEAD"), cancellable = true)
 	private void sarcio$dontRemoveFromNullTeam(String player, Team team, CallbackInfo ci) {
 		if (team == null) {

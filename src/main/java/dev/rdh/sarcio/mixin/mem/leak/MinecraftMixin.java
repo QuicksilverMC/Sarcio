@@ -1,7 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.leak;
 
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.rdh.sarcio.util.ClassInfoManager;
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.world.ClientWorld;
@@ -11,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("mem.leak.map_renderer_textures")
 @Mixin(Minecraft.class)
 abstract class MinecraftMixin {
 	@Shadow public ClientWorld world;
@@ -21,18 +21,5 @@ abstract class MinecraftMixin {
 		if (world != this.world && this.gameRenderer != null) {
 			this.gameRenderer.getMapRenderer().clearStateTextures();
 		}
-	}
-
-	@Inject(method = "init", at = @At("RETURN"))
-	private void clearMixinMetadata(CallbackInfo ci) {
-		ClassInfoManager.clear();
-	}
-
-	@WrapWithCondition(
-		method = "setWorld(Lnet/minecraft/client/world/ClientWorld;Ljava/lang/String;)V",
-		at = @At(value = "INVOKE", target = "Ljava/lang/System;gc()V")
-	)
-	private boolean skipWorldTransitionGc() {
-		return false;
 	}
 }

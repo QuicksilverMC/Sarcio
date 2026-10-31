@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render.tileentity;
 
+import dev.rdh.sarcio.Feature;
 import java.util.Map;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BannerRenderer.class)
 public class BannerRendererMixin {
+    @Feature("bugfix.render.banner_texture_lru")
     @Unique
     private static final int SARCIO$DESIGN_LIMIT = 256;
 
@@ -28,16 +30,19 @@ public class BannerRendererMixin {
     @Mutable
     private static Map<String, BannerRenderer.CachedTexture> TEXTURE_CACHE;
 
+    @Feature("bugfix.render.banner_texture_lru")
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void sarcio$useLinkedDesignCache(CallbackInfo ci) {
         TEXTURE_CACHE = new Object2ObjectLinkedOpenHashMap<>();
     }
 
+    @Feature("bugfix.render.banner_texture_lru")
     @WrapOperation(method = "getTexture", at = @At(value = "INVOKE", target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;", ordinal = 0))
     private Object sarcio$markDesignUsed(Map<String, BannerRenderer.CachedTexture> designs, Object pattern, Operation<Object> original) {
         return sarcio$cache(designs).getAndMoveToLast((String) pattern);
     }
 
+    @Feature("bugfix.render.banner_texture_lru")
     @ModifyExpressionValue(method = "getTexture", at = @At(value = "INVOKE", target = "Ljava/util/Map;size()I", ordinal = 1))
     private int sarcio$evictLeastRecentlyUsedDesign(int size) {
         if (size < SARCIO$DESIGN_LIMIT) {
@@ -49,6 +54,7 @@ public class BannerRendererMixin {
         return size - 1;
     }
 
+    @Feature("bugfix.render.banner_texture_lru")
     @Unique
     private static Object2ObjectLinkedOpenHashMap<String, BannerRenderer.CachedTexture> sarcio$cache(
         Map<String, BannerRenderer.CachedTexture> designs
@@ -56,6 +62,7 @@ public class BannerRendererMixin {
         return (Object2ObjectLinkedOpenHashMap<String, BannerRenderer.CachedTexture>) designs;
     }
 
+    @Feature("bugfix.render.banner_time_precision")
     @ModifyExpressionValue(method = "render(Lnet/minecraft/block/entity/BannerBlockEntity;DDDFI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getTime()J"))
     private long sarcio$wrapBannerTime(long time) {
         return time % 100L;

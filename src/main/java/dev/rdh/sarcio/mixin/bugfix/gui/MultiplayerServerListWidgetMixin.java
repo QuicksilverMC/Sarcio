@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.client.gui.screen.menu.multiplayer.MultiplayerServerListWidget;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+@Feature("bugfix.gui.server_list_entry_bounds")
 @Mixin(MultiplayerServerListWidget.class)
 public class MultiplayerServerListWidgetMixin {
     @Shadow

@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.leak.network;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.server.MinecraftServer;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("mem.leak.favicon_buffer")
 @Mixin(MinecraftServer.class)
 abstract class MinecraftServerMixin {
 	@Inject(method = "setStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/ServerStatus;setFavicon(Ljava/lang/String;)V", shift = At.Shift.AFTER))

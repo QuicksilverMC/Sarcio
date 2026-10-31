@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.entity;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.entity.Entity;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
+@Feature("mem.alloc.entity_light_cache")
 @Mixin(Entity.class)
 abstract class EntityLightLevelMixin {
 	@Shadow public World world;

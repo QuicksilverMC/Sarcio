@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.leak.world;
 
+import dev.rdh.sarcio.Feature;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("mem.leak.redstone_torch_toggles")
 @Mixin(RedstoneTorchBlock.class)
 abstract class RedstoneTorchBlockMixin {
 	@Shadow @Mutable private static Map<World, List<?>> RECENT_TOGGLES;

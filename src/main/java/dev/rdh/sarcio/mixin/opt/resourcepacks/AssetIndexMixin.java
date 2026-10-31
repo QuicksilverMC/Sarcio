@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.opt.resourcepacks;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import java.io.File;
@@ -8,6 +9,7 @@ import net.minecraft.client.resource.AssetIndex;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("opt.resourcepacks.trust_asset_index")
 @Mixin(AssetIndex.class)
 abstract class AssetIndexMixin {
 	@WrapOperation(

@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.world;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.block.Block;
 import net.minecraft.block.CactusBlock;
 import net.minecraft.block.material.MapColor;
@@ -10,6 +11,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
+@Feature("bugfix.world.cactus_outline_precision")
 @Mixin(CactusBlock.class)
 public abstract class CactusBlockMixin extends Block {
     public CactusBlockMixin(Material material, MapColor mapColor) {

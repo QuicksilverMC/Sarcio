@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.entity;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import java.util.UUID;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("mem.alloc.owner_uuid_cache")
 @Mixin(TameableEntity.class)
 abstract class TameableEntityMixin {
 	@Unique private String sarcio$ownerId;

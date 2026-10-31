@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.util;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.nbt.NbtString;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("mem.alloc.nbt_string_cache")
 @Mixin(NbtString.class)
 abstract class NbtStringMixin {
 	@Unique private String sarcio$asString;

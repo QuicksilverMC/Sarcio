@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;
@@ -26,6 +27,7 @@ public abstract class InventoryMenuScreenMixin {
     @Shadow
     protected abstract boolean moveHoveredSlotToHotbar(int keyCode);
 
+    @Feature("bugfix.mouse_bound_keys")
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void sarcio$handleMouseBoundKeys(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();
@@ -41,6 +43,7 @@ public abstract class InventoryMenuScreenMixin {
         }
     }
 
+    @Feature("bugfix.gui.inventory_blending")
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/game/inventory/InventoryMenuScreen;renderMenuBackground(FII)V"))
     private void sarcio$blendBackground(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         GlStateManager.enableBlend();
@@ -48,6 +51,7 @@ public abstract class InventoryMenuScreenMixin {
         GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
     }
 
+    @Feature("bugfix.gui.inventory_blending")
     @Inject(method = "renderSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/game/inventory/InventoryMenuScreen;drawSprite(IILnet/minecraft/client/render/texture/TextureAtlasSprite;II)V"))
     private void sarcio$blendSlot(InventorySlot slotIn, CallbackInfo ci) {
         GlStateManager.enableBlend();
@@ -64,11 +68,13 @@ public abstract class InventoryMenuScreenMixin {
     @Shadow
     private int draggedItemRemainder;
 
+    @Feature("bugfix.gui.close_menu_on_click_outside")
     @WrapOperation(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;openScreen(Lnet/minecraft/client/gui/screen/Screen;)V"))
     void sarcio$closeMenu(Minecraft instance, Screen guiScreenIn, Operation<Void> original) {
         instance.player.closeMenu();
     }
 
+    @Feature("bugfix.gui.clone_drag_count")
     @Inject(method = "updateDraggedStackRemainder", at = @At("TAIL"))
     private void sarcio$fixCloneDragCount(CallbackInfo ci) {
         ItemStack itemStack = Minecraft.getInstance().player.inventory.getCursorItem();

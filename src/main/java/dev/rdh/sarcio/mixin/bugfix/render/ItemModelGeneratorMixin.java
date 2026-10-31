@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -28,6 +29,7 @@ public abstract class ItemModelGeneratorMixin {
     protected abstract boolean isTransparent(int[] pixels, int x, int y, int width, int height);
 
     // Fixes holes in item models disabling pixels in textures that contain <=0.1F transparency like OptiFine does.
+    @Feature("bugfix.render.item_model_transparency")
     @Expression("@(?) == 0")
     @ModifyExpressionValue(method = "isTransparent", at = @At("MIXINEXTRAS:EXPRESSION"))
     private int sarcio$adjustTransparencyAllowed(final int original) {
@@ -38,6 +40,7 @@ public abstract class ItemModelGeneratorMixin {
      * @author rdh
      * @reason vanilla's side spans leave gaps; replace them with one face per run of edge pixels
      */
+    @Feature("bugfix.render.item_model_side_faces")
     @Overwrite
     private List<BlockElement> addSideElements(final TextureAtlasSprite sprite, final String key, final int layer) {
         final int width = sprite.getWidth();
@@ -54,6 +57,7 @@ public abstract class ItemModelGeneratorMixin {
         return elements;
     }
 
+    @Feature("bugfix.render.item_model_uvs")
     @ModifyReturnValue(method = "processFrames", at = @At("RETURN"))
     private List<BlockElement> sarcio$unlerpUvs(final List<BlockElement> elements, @Local(argsOnly = true) final TextureAtlasSprite sprite) {
         final float du = 0.02F / sprite.getWidth(), dv = 0.02F / sprite.getHeight();
@@ -69,6 +73,7 @@ public abstract class ItemModelGeneratorMixin {
         return elements;
     }
 
+    @Feature("bugfix.render.item_model_side_faces")
     @Unique
     private void sarcio$scan(final List<BlockElement> elements, final int layer, final String key, final int[][] frames, final int width, final int height, final boolean columns,
 							 final Direction dirA, final int dxA, final int dyA, final Direction dirB, final int dxB, final int dyB) {
@@ -102,6 +107,7 @@ public abstract class ItemModelGeneratorMixin {
         }
     }
 
+    @Feature("bugfix.render.item_model_side_faces")
     @Unique
     private static BlockElement sarcio$sideElement(final Direction dir, final int layer, final String key, final int start, final int end, final int o, final int width, final int height, final boolean column) {
         final float xf = width / 16.0F;
@@ -115,6 +121,7 @@ public abstract class ItemModelGeneratorMixin {
         return new BlockElement(new Vector3f(start / xf, (height - (o + 1)) / yf, 7.5F), new Vector3f((end + 1) / xf, (height - o) / yf, 8.5F), faces, null, true);
     }
 
+    @Feature("bugfix.render.item_model_side_faces")
     @Unique
     private boolean sarcio$alwaysTransparent(final int[][] frames, final int x, final int y, final int width, final int height) {
         for (final int[] frame : frames) {
@@ -123,6 +130,7 @@ public abstract class ItemModelGeneratorMixin {
         return true;
     }
 
+    @Feature("bugfix.render.item_model_side_faces")
     @Unique
     private boolean sarcio$hasEdge(final int[][] frames, final int x, final int y, final int dx, final int dy, final int width, final int height) {
         final int nx = x + dx, ny = y + dy;

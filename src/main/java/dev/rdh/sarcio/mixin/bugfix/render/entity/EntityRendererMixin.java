@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render.entity;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.platform.GlStateManager;
 import net.minecraft.entity.Entity;
@@ -8,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.render.fire_blending")
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin {
     @Inject(method = "renderOnFire", at = @At("HEAD"))

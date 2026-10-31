@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;
@@ -7,6 +8,7 @@ import net.minecraft.client.gui.screen.menu.options.LanguageOptionsScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("bugfix.gui.language_only_reload")
 @Mixin(LanguageOptionsScreen.LanguageSelectionListWidget.class)
 public class LanguageSelectionListWidgetMixin {
     @WrapOperation(method = "entryClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;reloadResources()V"))

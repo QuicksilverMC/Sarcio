@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.gui;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.menu.resourcepacks.ResourcePacksScreen;
 import net.minecraft.client.resource.pack.ResourcePack;
@@ -12,11 +13,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ResourcePacksScreen.class)
 public class ResourcePacksScreenMixin {
+    @Feature("bugfix.gui.pack_folder_info_position")
     @ModifyExpressionValue(method = "render", at = @At(value = "CONSTANT", args = "intValue=77"))
     private int sarcio$moveFolderInfo(int original) {
         return 102;
     }
 
+    @Feature("bugfix.gui.close_unused_packs")
     @Inject(method = "buttonClicked", at = @At(value = "INVOKE", target = "Ljava/util/Collections;reverse(Ljava/util/List;)V", remap = false))
     private void sarcio$closeUnusedPacks(CallbackInfo ci) {
         ResourcePacks repository = Minecraft.getInstance().getResourcePacks();

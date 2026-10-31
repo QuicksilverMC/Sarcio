@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.entity;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -16,9 +17,12 @@ import org.spongepowered.asm.mixin.injection.Coerce;
 
 @Mixin({Entity.class, PlayerEntity.class})
 abstract class EntityDisplayNameMixin {
+	@Feature("mem.alloc.entity_display_name_cache")
 	@Unique private long sarcio$displayNameTick = Long.MIN_VALUE;
+	@Feature("mem.alloc.entity_display_name_cache")
 	@Unique private Text sarcio$displayName;
 
+	@Feature("mem.alloc.entity_display_name_cache")
 	@WrapMethod(method = "getDisplayName", require = 1)
 	private Text sarcio$cacheDisplayName(Operation<Text> original) {
 		World world = ((Entity) (Object) this).world;
@@ -34,6 +38,7 @@ abstract class EntityDisplayNameMixin {
 		return this.sarcio$displayName;
 	}
 
+	@Feature("mem.alloc.singleplayer_hover_events")
 	@SuppressWarnings("MixinAnnotationTarget")
 	@WrapOperation(method = "getDisplayName", at = {
 			@At(value = "INVOKE", target = "Lnet/minecraft/entity/living/player/PlayerEntity;getHoverEvent()Lnet/minecraft/text/HoverEvent;"),

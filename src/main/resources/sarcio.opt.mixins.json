@@ -16,19 +16,27 @@
     "worldgen.ProtoChunkMixin",
     "worldgen.ServerChunkCacheMixin",
     "worldgen.VeinFeatureMixin",
-    "worldgen.WorldCarverMixin"
+    "worldgen.WorldCarverMixin",
+    "world.WorldChunkMixin",
+    "world.WorldCollisionMixin",
+    "entity.LivingEntityMixin",
+    "entity.WorldChunkAccessor",
+    "entity.TypeInstanceMultiMapAccessor",
+    "util.Long2ObjectHashMapMixin",
+    "util.Vec3iMixin",
+    "entity.SyncedDataMixin",
+    "world.WorldMixin"
   ],
   "client": [
     "resourcepacks.CustomResourcePackMixin",
     "resourcepacks.BuiltInResourcePackMixin",
     "resourcepacks.AssetIndexMixin",
     "resourcepacks.ResourcePacksMixin",
-    "resourcepacks.CustomResourcePackMetadataMixin",
-    "resourcepacks.JsonResourceMetadataMixin",
-    "textures.TextureManagerMixin",
-    "textures.TextureUtilMixin",
     "textures.HttpTextureMixin",
-    "textures.HttpTextureDownloaderMixin"
+    "world.ClientChunkCacheMixin",
+    "world.ChunkGapLightingAccessor",
+    "MinecraftMixin",
+    "world.WorldAreaCheckMixin"
   ],
   "injectors": {
     "defaultRequire": 1

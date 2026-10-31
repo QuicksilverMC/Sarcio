@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.render.world.WorldRenderer;
@@ -9,6 +10,7 @@ import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("bugfix.render.entities_outside_world")
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
     @ModifyExpressionValue(method = "setupRender", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/world/RenderChunk;bounds:Lnet/minecraft/util/math/Box;", opcode = Opcodes.GETFIELD, ordinal = 0))

@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.bugfix.render;
 
+import dev.rdh.sarcio.Feature;
 import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.render.TextRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("bugfix.render.front_view_pitch")
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin {
     @Shadow

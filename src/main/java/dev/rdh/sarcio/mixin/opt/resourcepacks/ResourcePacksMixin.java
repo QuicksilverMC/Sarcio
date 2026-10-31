@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.opt.resourcepacks;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("opt.resourcepacks.reload_index")
 @Mixin(ResourcePacks.class)
 public class ResourcePacksMixin {
     @Shadow

@@ -12,7 +12,8 @@
     "ScoreboardMixin",
     "world.WorldMixin",
     "world.VillageMixin",
-    "world.SavedVillageDataMixin"
+    "world.SavedVillageDataMixin",
+    "LazySupplierMixin"
   ],
   "client": [
     "entity.EntityLightLevelMixin",
@@ -81,7 +82,11 @@
     "render.tileentity.BannerRendererMixin",
     "render.tileentity.BlockEntityRenderDispatcherMixin",
     "render.tileentity.SkullRendererMixin",
-    "render.BufferBuilderMixin"
+    "render.BufferBuilderMixin",
+    "render.HttpTextureDownloaderMixin",
+    "resourcepacks.CustomResourcePackMetadataMixin",
+    "resourcepacks.JsonResourceMetadataMixin",
+    "TickTimerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

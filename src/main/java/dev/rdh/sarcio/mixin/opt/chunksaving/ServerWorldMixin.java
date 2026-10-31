@@ -3,6 +3,7 @@ package dev.rdh.sarcio.mixin.opt.chunksaving;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.ChunkIndexedTickSet;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -12,6 +13,7 @@ import net.minecraft.world.gen.structure.StructureBox;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("opt.chunk_indexed_ticks")
 @Mixin(ServerWorld.class)
 abstract class ServerWorldMixin {
 	@ModifyExpressionValue(method = "<init>", at = @At(value = "NEW", target = "java/util/TreeSet"))

@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.tweaks;
 
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.SarcioMod;
 import net.minecraft.client.gui.screen.menu.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Feature("tweaks.disable_realms")
 @Mixin(TitleScreen.class)
 public class TitleScreenMixin {
     @Shadow

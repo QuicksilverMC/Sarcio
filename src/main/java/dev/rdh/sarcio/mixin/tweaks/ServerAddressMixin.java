@@ -2,10 +2,12 @@ package dev.rdh.sarcio.mixin.tweaks;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import dev.rdh.sarcio.Feature;
 import dev.rdh.sarcio.util.AsyncServerPinger;
 import net.minecraft.client.network.ServerAddress;
 import org.spongepowered.asm.mixin.Mixin;
 
+@Feature("tweaks.async_server_ping")
 @Mixin(ServerAddress.class)
 public class ServerAddressMixin {
     @WrapMethod(method = "parseAddress")

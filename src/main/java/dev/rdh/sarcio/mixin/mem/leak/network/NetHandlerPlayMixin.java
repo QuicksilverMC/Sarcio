@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.leak.network;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.client.network.handler.ClientPlayNetworkHandler;
@@ -11,6 +12,7 @@ import net.minecraft.server.network.handler.ServerPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Coerce;
 
+@Feature("mem.leak.custom_payload_buffers")
 @Mixin({ClientPlayNetworkHandler.class, ServerPlayNetworkHandler.class})
 public class NetHandlerPlayMixin {
 	@WrapMethod(method = "handleCustomPayload")

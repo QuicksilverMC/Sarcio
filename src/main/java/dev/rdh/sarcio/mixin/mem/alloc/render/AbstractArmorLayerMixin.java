@@ -1,5 +1,6 @@
 package dev.rdh.sarcio.mixin.mem.alloc.render;
 
+import dev.rdh.sarcio.Feature;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import java.util.IdentityHashMap;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Feature("mem.alloc.armor_texture_cache")
 @Mixin(AbstractArmorLayer.class)
 abstract class AbstractArmorLayerMixin {
 	@Unique private static final Map<ArmorItem.Tier, Identifier[]> sarcio$armorTextures = new IdentityHashMap<>();
