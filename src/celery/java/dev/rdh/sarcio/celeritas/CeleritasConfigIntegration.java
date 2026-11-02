@@ -58,6 +58,13 @@ public final class CeleritasConfigIntegration implements OptionStorage<SarcioCon
 						.setBinding((config, value) -> config.persistentKeybindings = value,
 								config -> config.persistentKeybindings)
 						.build())
+				.add(OptionImpl.createBuilder(boolean.class, INSTANCE)
+						.setId(id("log_server_disconnect"))
+						.setEnabled(Features.isEnabled("tweaks.log_server_disconnect"))
+						.setControl(TickBoxControl::new)
+						.setBinding((config, value) -> config.logServerDisconnect = value,
+								config -> config.logServerDisconnect)
+						.build())
 				.build();
 
 		return new OptionPage(id("options"), TextComponent.translatable("sarcio.options.pages.sarcio"), List.of(memory));
