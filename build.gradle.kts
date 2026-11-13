@@ -51,7 +51,7 @@ repositories {
 
 val nettyModules = listOf(
     "common", "buffer", "transport", "resolver", "codec-base", "handler",
-    "codec-dns", "resolver-dns", "transport-native-unix-common", "transport-classes-epoll",
+    "codec-dns", "codec-compression", "codec-http", "resolver-dns", "transport-native-unix-common", "transport-classes-epoll",
 )
 
 configurations.configureEach {
