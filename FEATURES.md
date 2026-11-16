@@ -12,6 +12,7 @@ This is always on, and can't be switched off.
 
 - `bugfix.ascii_digits`: stops the game breaking in languages that don't write numbers with 0-9.
 - `bugfix.create_server_pack_dir`: creates the server resource pack folder if it's missing.
+- `bugfix.empty_user_cache`: fixes a crash when `usercache.json` gets corrupted and is empty.
 - `bugfix.mouse_bound_keys`: perspective, fullscreen, screenshot, inventory, drop and hotbar keys work on mouse buttons.
 - `bugfix.nanosecond_tick_timer`: the game keeps time more accurately.
 - `bugfix.nbt_null_fail_fast`: bad NBT data fails right away, with a useful error.

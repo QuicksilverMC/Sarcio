@@ -13,7 +13,8 @@
     "world.WorldMixin",
     "world.VillageMixin",
     "world.SavedVillageDataMixin",
-    "LazySupplierMixin"
+    "LazySupplierMixin",
+    "GameProfileCacheMixin"
   ],
   "client": [
     "entity.EntityLightLevelMixin",
