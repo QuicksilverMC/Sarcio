@@ -26,6 +26,7 @@
     "render.ParticleManagerMixin",
     "entity.LivingEntityMixin",
     "render.GameRendererMixin",
+    "render.GLXMixin",
     "gui.TextRendererMixin",
     "gui.InventoryMenuScreenMixin",
     "gui.DirectConnectScreenMixin",

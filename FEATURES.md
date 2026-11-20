@@ -102,6 +102,7 @@ This is always on, and can't be switched off.
 - `bugfix.render.item_model_side_faces`: closes gaps in the edges of held items.
 - `bugfix.render.item_model_transparency`: fixes holes in items with nearly transparent pixels.
 - `bugfix.render.item_model_uvs`: fixes the alignment of item textures.
+- `bugfix.render.lightmap_clamp`: mods can't light things past full brightness, which shader packs showed as overbright.
 - `bugfix.render.lit_particle_rotation`: fixes particles facing the wrong way.
 - `bugfix.render.missing_item_model`: invalid items show the missing model instead of crashing.
 - `bugfix.render.moving_block_precision`: fixes pistons jittering far from spawn.
