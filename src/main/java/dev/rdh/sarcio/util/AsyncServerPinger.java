@@ -11,6 +11,7 @@ import io.netty.handler.codec.dns.DefaultDnsRecordDecoder;
 import io.netty.handler.codec.dns.DnsRawRecord;
 import io.netty.handler.codec.dns.DnsRecord;
 import io.netty.handler.codec.dns.DnsRecordType;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.resolver.dns.DnsNameResolver;
 import io.netty.resolver.dns.DnsNameResolverBuilder;
 import io.netty.util.ReferenceCountUtil;
@@ -60,7 +61,8 @@ public final class AsyncServerPinger {
 
     public static void ping(ServerListEntry entry, Runnable vanillaPing) {
         if (IN_FLIGHT.incrementAndGet() > MAX_PINGS_IN_FLIGHT) {
-            fail(entry, Formatting.GRAY + "Spamming...");
+            IN_FLIGHT.decrementAndGet();
+            entry.loaded = false;
             return;
         }
         Loop.LOOP.execute(() -> {
@@ -153,6 +155,7 @@ public final class AsyncServerPinger {
                 return;
             }
             IN_FLIGHT.decrementAndGet();
+            connected.channel().pipeline().replace("timeout", "timeout", new ReadTimeoutHandler(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS));
             connected.channel().eventLoop().execute(() -> {
                 CURRENT.set(ping);
                 try {
