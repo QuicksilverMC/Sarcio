@@ -104,6 +104,7 @@ This is always on, and can't be switched off.
 - `bugfix.render.item_model_uvs`: fixes the alignment of item textures.
 - `bugfix.render.lightmap_clamp`: mods can't light things past full brightness, which shader packs showed as overbright.
 - `bugfix.render.lit_particle_rotation`: fixes particles facing the wrong way.
+- `bugfix.render.max_texture_size`: texture packs can use the full texture size your graphics card supports.
 - `bugfix.render.missing_item_model`: invalid items show the missing model instead of crashing.
 - `bugfix.render.moving_block_precision`: fixes pistons jittering far from spawn.
 - `bugfix.render.night_vision_clamp`: fixes night vision brightness.
