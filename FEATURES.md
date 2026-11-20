@@ -125,6 +125,7 @@ This is always on, and can't be switched off.
 ### Resource packs
 
 - `bugfix.resourcepacks.lenient_metadata`: packs with slightly invalid metadata still load.
+- `bugfix.resourcepacks.unreadable_images`: images Minecraft can't read show the missing texture instead of crashing.
 
 ### Scoreboards
 
