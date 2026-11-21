@@ -1,6 +1,7 @@
 package dev.rdh.sarcio.mixin.bugfix.render.tileentity;
 
 import dev.rdh.sarcio.Feature;
+import dev.rdh.sarcio.util.StandardLighting;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -8,6 +9,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.MobSpawnerRenderer;
+import net.minecraft.client.render.platform.GlStateManager;
 import net.minecraft.client.render.platform.Lighting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,6 +34,28 @@ public abstract class BlockEntityRenderDispatcherMixin {
     @Feature("bugfix.render.block_entity_lighting")
     @Inject(method = "render(Lnet/minecraft/block/entity/BlockEntity;FI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getLightColor(Lnet/minecraft/util/math/BlockPos;I)I"))
     private void sarcio$enableLighting(CallbackInfo ci) {
-        Lighting.turnOn();
+        if (StandardLighting.current) {
+            GlStateManager.enableLighting();
+        } else {
+            Lighting.turnOn();
+            StandardLighting.current = true;
+        }
+    }
+
+    @Feature("bugfix.render.block_entity_lighting")
+    @Inject(method = "render(Lnet/minecraft/block/entity/BlockEntity;DDDFI)V", at = {
+        @At(value = "INVOKE", target = "Lnet/minecraft/client/render/block/entity/BlockEntityRenderer;render(Lnet/minecraft/block/entity/BlockEntity;DDDFI)V"),
+        @At(value = "INVOKE", target = "Lnet/minecraft/client/render/block/entity/BlockEntityRenderer;render(Lnet/minecraft/block/entity/BlockEntity;DDDFI)V", shift = At.Shift.AFTER)
+    })
+    private void sarcio$distrustModRenderers(CallbackInfo ci, @Local BlockEntityRenderer<?> renderer) {
+        if (renderer instanceof MobSpawnerRenderer || !renderer.getClass().getName().startsWith("net.minecraft.")) {
+            StandardLighting.current = false;
+        }
+    }
+
+    @Feature("bugfix.render.block_entity_lighting")
+    @Inject(method = "prepare", at = @At("HEAD"))
+    private void sarcio$newFrame(CallbackInfo ci) {
+        StandardLighting.current = false;
     }
 }

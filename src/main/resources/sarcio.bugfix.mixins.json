@@ -82,6 +82,8 @@
     "render.ItemModelGeneratorMixin",
     "render.tileentity.BannerRendererMixin",
     "render.tileentity.BlockEntityRenderDispatcherMixin",
+    "render.tileentity.GlStateManagerMixin",
+    "render.tileentity.LightingMixin",
     "render.tileentity.SkullRendererMixin",
     "render.BufferBuilderMixin",
     "render.HttpTextureDownloaderMixin",
