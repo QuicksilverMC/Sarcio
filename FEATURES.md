@@ -48,6 +48,7 @@ This is always on, and can't be switched off.
 - `bugfix.gui.ignore_unicode_keys`: fixes a crash from keybinds on unusual keys.
 - `bugfix.gui.inventory_blending`: fixes transparency in inventories.
 - `bugfix.gui.language_only_reload`: changing language no longer reloads every resource.
+- `bugfix.gui.lenient_riding_hunger`: prevents hunger bar from being hidden when riding an entity with no health bar.
 - `bugfix.gui.minute_stat_unit`: statistics say `min` for minutes instead of `m`.
 - `bugfix.gui.opaque_scoreboard_text`: scoreboard text is solid instead of faded.
 - `bugfix.gui.pack_folder_info_position`: moves the folder hint on the resource pack screen to where it fits.
