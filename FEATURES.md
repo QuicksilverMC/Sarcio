@@ -97,6 +97,7 @@ This is always on, and can't be switched off.
 - `bugfix.render.first_person_shaders`: mob spectator shaders only apply in first person.
 - `bugfix.render.fluid_gaps`: closes the gaps around water and lava.
 - `bugfix.render.front_view_pitch`: name tags face you in front view.
+- `bugfix.render.frozen_sky_jitter`: fixes the sky shaking when the time of day is frozen.
 - `bugfix.render.gui_item_glint`: enchantment glint fits the item in menus.
 - `bugfix.render.horizon_at_void`: moves the dark horizon down to the void.
 - `bugfix.render.item_cull_face`: fixes inside-out held items.
