@@ -78,6 +78,7 @@
     "gui.MultiplayerServerListWidgetMixin",
     "SoundEngineMixin",
     "render.WorldHorizonMixin",
+    "render.WorldFrozenSkyMixin",
     "render.tileentity.MovingBlockRendererMixin",
     "render.VertexBufferMixin",
     "render.ItemModelGeneratorMixin",
