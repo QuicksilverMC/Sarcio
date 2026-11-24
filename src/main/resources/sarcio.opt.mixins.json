@@ -23,7 +23,6 @@
     "entity.WorldChunkAccessor",
     "entity.TypeInstanceMultiMapAccessor",
     "util.Long2ObjectHashMapMixin",
-    "util.Vec3iMixin",
     "entity.SyncedDataMixin",
     "world.WorldMixin"
   ],
