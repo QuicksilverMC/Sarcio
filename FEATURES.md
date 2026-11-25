@@ -220,7 +220,6 @@ This is always on, and can't be switched off.
 - `opt.synced_data_array`: faster entity data lookups.
 - `opt.synced_data_no_lock`: removes needless locking on entity data.
 - `opt.textures.shared_download_executor`: skins download on a few shared threads.
-- `opt.vec3i_hash`: faster block position maps.
 - `opt.world_collisions`: faster collision checks.
 - `opt.worldgen.proto_chunk_states`: faster chunk generation.
 - `opt.worldgen.terrain_prefetch`: generates terrain ahead of time on other threads.
