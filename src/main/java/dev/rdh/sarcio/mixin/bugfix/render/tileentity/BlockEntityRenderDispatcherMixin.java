@@ -8,7 +8,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.platform.Lighting;
+import net.minecraft.client.render.platform.GlStateManager;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,6 +32,12 @@ public abstract class BlockEntityRenderDispatcherMixin {
     @Feature("bugfix.render.block_entity_lighting")
     @Inject(method = "render(Lnet/minecraft/block/entity/BlockEntity;FI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getLightColor(Lnet/minecraft/util/math/BlockPos;I)I"))
     private void sarcio$enableLighting(CallbackInfo ci) {
-        Lighting.turnOn();
+        // Lighting.turnOn sets redundant state which is slow
+        GlStateManager.enableLighting();
+        GlStateManager.enableLight(0);
+        GlStateManager.enableLight(1);
+        GlStateManager.enableColorMaterial();
+        GlStateManager.colorMaterial(GL11.GL_FRONT_AND_BACK, GL11.GL_AMBIENT_AND_DIFFUSE);
+        GlStateManager.shadeModel(GL11.GL_FLAT);
     }
 }
