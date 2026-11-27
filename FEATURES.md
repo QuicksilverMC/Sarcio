@@ -157,7 +157,6 @@ This is always on, and can't be switched off.
 - `mem.alloc.entity_light_cache`: remembers entity lighting for a tick.
 - `mem.alloc.game_rule_unchanged_write`: skips setting a game rule to the value it already has.
 - `mem.alloc.item_name_cache`: remembers item names.
-- `mem.alloc.name_tag_text`: cheaper name tags.
 - `mem.alloc.nbt_string_cache`: remembers text versions of NBT strings.
 - `mem.alloc.owner_uuid_cache`: remembers the owners of tamed mobs.
 - `mem.alloc.particle_remove_set`: cheaper removal of dead particles.
