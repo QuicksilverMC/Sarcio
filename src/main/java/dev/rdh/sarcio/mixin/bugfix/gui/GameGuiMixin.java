@@ -16,11 +16,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public class GameGuiMixin {
     @Feature("bugfix.gui.lenient_riding_hunger")
     @ModifyVariable(method = "renderStatusBars", at = @At("STORE"), ordinal = 0)
-    private Entity showMyHunger(Entity entity) {
-        if (!(entity instanceof LivingEntity)) {
-            return null;
-        }
-        return entity;
+    private Entity sarcio$lenientRidingHunger(Entity entity) {
+        return entity instanceof LivingEntity ? entity : null;
     }
 
     @Feature("bugfix.gui.opaque_scoreboard_text")
