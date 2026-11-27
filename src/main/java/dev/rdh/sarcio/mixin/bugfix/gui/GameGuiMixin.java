@@ -6,11 +6,20 @@ import net.minecraft.client.gui.GameGui;
 import net.minecraft.client.render.Window;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.living.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(GameGui.class)
 public class GameGuiMixin {
+    @Feature("bugfix.gui.lenient_riding_hunger")
+    @ModifyVariable(method = "renderStatusBars", at = @At("STORE"), ordinal = 0)
+    private Entity sarcio$lenientRidingHunger(Entity entity) {
+        return entity instanceof LivingEntity ? entity : null;
+    }
+
     @Feature("bugfix.gui.opaque_scoreboard_text")
     @ModifyExpressionValue(method = "renderScoreboardObjective", at = @At(value = "CONSTANT", args = "intValue=553648127"))
     private int sarcio$opaqueScoreboardText(int original) {
